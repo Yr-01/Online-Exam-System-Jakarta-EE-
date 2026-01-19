@@ -98,7 +98,7 @@ SEO-friendly URLs implemented using RewriteConfiguration:
 - `/creator-dashboard/my-exams`
 
 ## Exam Retake
-- Candidates can receive a new invitation if an exam is missed or closed
+- Users can receive a new invitation if an exam is missed or closed
 
 ## Results & Reports
 - View exam results
