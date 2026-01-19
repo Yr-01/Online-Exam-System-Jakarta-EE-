@@ -73,7 +73,7 @@ It uses **session-based authentication**, **clean URLs**, **email services**, an
 ### Example
 - An exam contains **20 questions**
 - Only **4 questions** are displayed
-- The system randomly selects **4 questions**
+- The system randomly selects **4 questions** for each attempt
 
 ## Exam Display
 - If an **Admin** creates an exam, **“Created by”** displays **QuickExam**
