@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view>
+    <h:head>
+        <title>Enter Exam Code - QuickExam</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+        <style>
+            body {
+                font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                min-height: 100vh;
+            }
+
+            .main-container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .code-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border-radius: 24px;
+                box-shadow:
+                        0 20px 60px rgba(59, 130, 246, 0.08),
+                        0 8px 32px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(226, 232, 240, 0.6);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .code-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: linear-gradient(90deg,
+                #22c55e 0%,
+                #3b82f6 33%,
+                #8b5cf6 66%,
+                #ec4899 100%);
+            }
+
+            .guidelines-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border-radius: 20px;
+                box-shadow:
+                        0 15px 40px rgba(34, 197, 94, 0.08),
+                        0 6px 20px rgba(0, 0, 0, 0.03);
+                border: 1px solid rgba(226, 232, 240, 0.6);
+                height: 100%;
+            }
+
+            .input-container {
+                position: relative;
+            }
+
+            .code-input {
+                background: #ffffff;
+                border: 2px solid #e2e8f0;
+                border-radius: 16px;
+                font-size: 2rem;
+                font-weight: 700;
+                font-family: 'Courier New', monospace;
+                letter-spacing: 8px;
+                text-align: center;
+                color: #1e293b;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 20px 30px;
+                width: 100%;
+            }
+
+            .code-input:focus {
+                border-color: #3b82f6;
+                box-shadow:
+                        0 0 0 4px rgba(59, 130, 246, 0.1),
+                        0 10px 30px rgba(59, 130, 246, 0.15);
+                outline: none;
+                transform: translateY(-2px);
+            }
+
+            .code-input::placeholder {
+                color: #94a3b8;
+                letter-spacing: 2px;
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+
+            .submit-btn {
+                background: linear-gradient(135deg,
+                #22c55e 0%,
+                #16a34a 100%);
+                color: white;
+                border: none;
+                border-radius: 14px;
+                padding: 18px 40px;
+                font-size: 1.125rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                width: 100%;
+                box-shadow:
+                        0 10px 25px rgba(34, 197, 94, 0.3),
+                        0 4px 10px rgba(34, 197, 94, 0.2);
+            }
+
+            .submit-btn:hover {
+                transform: translateY(-3px);
+                box-shadow:
+                        0 15px 35px rgba(34, 197, 94, 0.4),
+                        0 6px 15px rgba(34, 197, 94, 0.3);
+            }
+
+            .submit-btn:active {
+                transform: translateY(-1px);
+            }
+
+            .submit-btn:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+                transform: none !important;
+            }
+
+            .section-title {
+                color: #1e293b;
+                font-size: 1.875rem;
+                font-weight: 700;
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section-title i {
+                color: #3b82f6;
+                font-size: 1.75rem;
+            }
+
+            .section-subtitle {
+                color: #64748b;
+                font-size: 1.125rem;
+                margin-bottom: 32px;
+                line-height: 1.6;
+            }
+
+            .guideline-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 20px;
+                background: #f8fafc;
+                border-radius: 14px;
+                margin-bottom: 16px;
+                border: 1px solid #e2e8f0;
+                transition: all 0.3s;
+            }
+
+            .guideline-item:hover {
+                background: #f1f5f9;
+                border-color: #cbd5e1;
+                transform: translateX(4px);
+            }
+
+            .guideline-icon {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+            }
+
+            .guideline-content h4 {
+                color: #1e293b;
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin-bottom: 6px;
+            }
+
+            .guideline-content p {
+                color: #64748b;
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .info-box {
+                background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+                border-radius: 16px;
+                padding: 24px;
+                border: 1px solid #bae6fd;
+                margin-top: 32px;
+            }
+
+            .info-box h4 {
+                color: #0369a1;
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .info-box p {
+                color: #0c4a6e;
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+
+            .error-message {
+                color: #dc2626;
+                background: #fef2f2;
+                border: 1px solid #fecaca;
+                border-radius: 12px;
+                padding: 16px;
+                margin-top: 20px;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .error-message i {
+                color: #dc2626;
+                font-size: 1.125rem;
+            }
+
+            .success-message {
+                color: #059669;
+                background: #f0fdf4;
+                border: 1px solid #bbf7d0;
+                border-radius: 12px;
+                padding: 16px;
+                margin-top: 20px;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .success-message i {
+                color: #059669;
+                font-size: 1.125rem;
+            }
+
+            .code-example {
+                background: #f1f5f9;
+                border-radius: 10px;
+                padding: 16px;
+                margin-top: 16px;
+                text-align: center;
+            }
+
+            .code-example span {
+                font-family: 'Courier New', monospace;
+                font-size: 1.5rem;
+                font-weight: 700;
+                letter-spacing: 8px;
+                color: #3b82f6;
+                display: inline-block;
+                padding: 8px 16px;
+                background: white;
+                border-radius: 8px;
+                border: 2px dashed #cbd5e1;
+            }
+
+            .form-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 32px;
+            }
+
+            .form-icon {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 2rem;
+                flex-shrink: 0;
+            }
+
+            @media (max-width: 768px) {
+                .code-input {
+                    font-size: 1.5rem;
+                    padding: 16px 20px;
+                    letter-spacing: 6px;
+                }
+
+                .section-title {
+                    font-size: 1.5rem;
+                }
+
+                .form-header {
+                    flex-direction: column;
+                    text-align: center;
+                    gap: 16px;
+                }
+
+                .form-icon {
+                    width: 70px;
+                    height: 70px;
+                    font-size: 1.75rem;
+                }
+
+                .code-example span {
+                    font-size: 1.25rem;
+                    letter-spacing: 6px;
+                }
+            }
+        </style>
+    </h:head>
+    <h:body class="min-h-screen">
+
+        <!-- Header -->
+        <ui:include src="/views/layouts/header.xhtml" />
+
+        <!-- Main Content -->
+        <main class="py-8 px-4 sm:px-6">
+            <div class="main-container">
+                <!-- Page Title -->
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                        Enter Exam Session Code
+                    </h1>
+                    <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                        Enter the unique code provided by your instructor to start your exam
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Code Entry Form -->
+                    <div class="lg:col-span-2">
+                        <div class="code-card p-8">
+                            <div class="form-header">
+                                <div class="form-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div>
+                                    <h2 class="section-title">
+                                        <i class="fas fa-lock"></i>
+                                        Exam Session Code
+                                    </h2>
+                                    <p class="section-subtitle">
+                                        Enter the 10-character alphanumeric code to begin your examination.
+                                        The code is case-sensitive and can only be used once.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h:form id="codeForm" styleClass="space-y-10">
+                                <!-- Code Input Field -->
+                                <div class="input-container">
+                                    <h:inputText id="code"
+                                                 value="#{examController.code}"
+                                                 styleClass="code-input"
+                                                 placeholder="ENTER CODE"
+                                                 maxlength="10"
+                                                 required="true"
+                                                 requiredMessage="Please enter an exam code" />
+                                </div>
+
+                                <!-- Code Example -->
+                                <div class="code-example">
+                                    <p class="text-gray-600 text-sm mb-2">Example format:</p>
+                                    <span>A1B2C3D4E5</span>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="pt-2">
+                                    <h:commandLink value="Start Exam Session"
+                                                     action="#{examController.validateAndStartExam()}"
+                                                     styleClass="submit-btn"
+                                                     onclick="showLoading(this)">
+                                        <i class="fas fa-play-circle"></i>
+                                    </h:commandLink>
+                                </div>
+                                <!-- Form Messages -->
+                                <h:message for="code"
+                                           styleClass="error-message"
+                                           showDetail="true" />
+                            </h:form>
+
+                            <!-- Information Box -->
+                            <div class="info-box">
+                                <h4>
+                                    <i class="fas fa-info-circle"></i>
+                                    Important Information
+                                </h4>
+                                <p>
+                                    • Make sure you have a stable internet connection before starting<br/>
+                                    • The exam timer begins immediately after code validation<br/>
+                                    • You cannot pause or restart the exam once started<br/>
+                                    • Contact your instructor immediately if you encounter any issues
+                                </p>
+                            </div>
+
+                            <!-- Global Messages -->
+                            <div class="mt-6">
+                                <h:messages globalOnly="true"
+                                            infoClass="success-message"
+                                            errorClass="error-message"
+                                            warnClass="error-message" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Exam Guidelines -->
+                    <div class="lg:col-span-1">
+                        <div class="guidelines-card p-8">
+                            <h2 class="section-title">
+                                <i class="fas fa-clipboard-check"></i>
+                                Exam Guidelines
+                            </h2>
+
+                            <div class="space-y-4">
+                                <!-- Guideline 1 -->
+                                <div class="guideline-item">
+                                    <div class="guideline-icon" style="background: #dbeafe; color: #1d4ed8;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="guideline-content">
+                                        <h4>Time Management</h4>
+                                        <p>The exam has a strict time limit. Monitor the timer and pace yourself accordingly.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Guideline 2 -->
+                                <div class="guideline-item">
+                                    <div class="guideline-icon" style="background: #dcfce7; color: #16a34a;">
+                                        <i class="fas fa-save"></i>
+                                    </div>
+                                    <div class="guideline-content">
+                                        <h4>Auto-Save Feature</h4>
+                                        <p>Your answers are automatically saved as you progress through the questions.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Guideline 3 -->
+                                <div class="guideline-item">
+                                    <div class="guideline-icon" style="background: #fef3c7; color: #d97706;">
+                                        <i class="fas fa-redo"></i>
+                                    </div>
+                                    <div class="guideline-content">
+                                        <h4>Question Navigation</h4>
+                                        <p>You can move between questions using Next button during the exam.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Guideline 4 -->
+                                <div class="guideline-item" style="background-color:rgba(255,0,0,0.06); padding:15px; border-radius:6px;">
+                                <div class="guideline-icon" style="background: #fee2e2; color: #dc2626;">
+                                        <i class="fas fa-ban"></i>
+                                    </div>
+                                    <div class="guideline-content">
+                                        <h4>Browser Restrictions</h4>
+                                        <p>Do not refresh or close the browser window during the examination.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Back to Home Link -->
+                            <div class="mt-8 pt-8 border-t border-gray-200">
+                                <h:link outcome="/index.xhtml"
+                                        styleClass="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                    Return to Homepage
+                                </h:link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- JavaScript -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const codeInput = document.getElementById('code');
+
+                if (codeInput) {
+                    // Auto-uppercase and remove non-alphanumeric characters
+                    codeInput.addEventListener('input', function(e) {
+                        this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                    });
+
+                    // Focus on page load
+                    setTimeout(() => {
+                        codeInput.focus();
+                    }, 500);
+                }
+
+                // Add keyboard shortcut (Enter to submit)
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' &amp;&amp; !e.target.matches('textarea, input[type="text"]')) {
+                        const submitBtn = document.querySelector('.submit-btn');
+                        if (submitBtn) {
+                            submitBtn.click();
+                        }
+                    }
+                });
+            });
+
+            // Show loading state on button click
+            function showLoading(button) {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '&lt;i class="fas fa-spinner fa-spin mr-2"&gt;&lt;/i&gt; Validating Code...';
+                button.disabled = true;
+
+                // Reset button after 5 seconds (in case of no response)
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.disabled = false;
+                }, 5000);
+            }
+        </script>
+
+    </h:body>
+</f:view>
+</html>

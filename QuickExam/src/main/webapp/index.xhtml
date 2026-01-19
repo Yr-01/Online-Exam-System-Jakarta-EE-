@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<f:view>
+    <h:head>
+        <title>Quick Exam - Test Your Knowledge</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Tailwind CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
+
+        <style>
+            :root {
+                --soft-rose: #ffeef5;
+                --soft-purple: #f5f1ff;
+                --soft-yellow: #fff9e6;
+                --soft-blue: #f0f8ff;
+                --soft-green: #f0fff4;
+                --soft-milk: #fdf6f0;
+                --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            }
+            body {
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, var(--soft-milk) 0%, var(--soft-purple) 50%, var(--soft-blue) 100%);
+                min-height: 100vh;
+            }
+            .gradient-text {
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            }
+            .btn-primary {
+                background: var(--primary-gradient);
+                transition: all 0.3s ease;
+            }
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            }
+            .btn-secondary {
+                background: var(--secondary-gradient);
+                transition: all 0.3s ease;
+            }
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+            }
+            .feature-card {
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+                background: white;
+            }
+            .nav-link {
+                position: relative;
+                transition: all 0.3s ease;
+            }
+            .nav-link:hover {
+                color: #667eea;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                left: 0;
+                background: var(--primary-gradient);
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            .floating-element {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+            }
+            .pulse-animation {
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+                70% { box-shadow: 0 0 0 15px rgba(102, 126, 234, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+            }
+            .section-title {
+                position: relative;
+                display: inline-block;
+            }
+            .section-title::after {
+                content: '';
+                position: absolute;
+                width: 60%;
+                height: 4px;
+                background: var(--primary-gradient);
+                bottom: -10px;
+                left: 20%;
+                border-radius: 2px;
+            }
+        </style>
+    </h:head>
+
+    <h:body class="min-h-screen">
+
+        <!-- Header -->
+        <ui:include src="views/layouts/header.xhtml" />
+
+        <!-- Main Content -->
+        <main>
+            <ui:insert name="content">
+
+                <!-- Hero Section -->
+                <section class="relative overflow-hidden py-16 md:py-24">
+
+                    <!-- Background decorative elements -->
+                    <div class="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+                    <div class="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-r from-blue-300 to-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+
+                    <div class="container mx-auto px-4 relative z-10">
+                        <div class="flex flex-col lg:flex-row items-center justify-between">
+
+                            <div class="lg:w-1/2 mb-12 lg:mb-0">
+                                <div class="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 font-medium mb-6">
+                                    <i class="fas fa-star mr-2"></i> QuickExam
+                                </div>
+
+                                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                                    <span class="gradient-text">Master Your Exams</span><br />
+                                    <span class="text-gray-800">with Confidence</span>
+                                </h1>
+
+                                <p class="text-xl text-gray-600 mb-8 max-w-lg">
+                                    An interactive platform designed to help you prepare, practice, and excel in your exams with personalized learning paths.
+                                </p>
+
+                                <h:panelGroup rendered="#{!userSession.isLoggedIn()}">
+                                    <div class="flex flex-col sm:flex-row gap-4">
+                                        <h:link outcome="#{homeController.register()}"
+                                                styleClass="btn-primary text-white font-semibold py-4 px-8 rounded-xl inline-flex items-center justify-center">
+                                            <i class="fas fa-rocket mr-3"></i> Start Learning Free
+                                        </h:link>
+
+                                        <h:link outcome="#{homeController.login()}"
+                                                styleClass="glass-effect text-gray-700 font-semibold py-4 px-8 rounded-xl inline-flex items-center justify-center">
+                                            <i class="fas fa-sign-in-alt mr-3"></i> Sign In
+                                        </h:link>
+                                    </div>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{userSession.isLoggedIn()}">
+                                    <div class="flex flex-col sm:flex-row gap-4">
+                                        <h:form>
+                                            <h:commandLink action="#{homeController.exams()}"
+                                                           styleClass="btn-primary text-white font-semibold py-4 px-8 rounded-xl inline-flex items-center justify-center">
+                                                <i class="fas fa-book-open mr-3"></i> Browse Exams
+                                            </h:commandLink>
+                                        </h:form>
+
+                                        <h:form>
+                                            <h:commandLink action="#{homeController.passExam()}"
+                                                           styleClass="glass-effect text-gray-700 font-semibold py-4 px-8 rounded-xl inline-flex items-center justify-center">
+                                                <i class="fas fa-play-circle mr-3"></i> Start Exam
+                                            </h:commandLink>
+                                        </h:form>
+                                    </div>
+                                </h:panelGroup>
+                            </div>
+
+                            <div class="lg:w-1/2 relative">
+                                <div class="relative max-w-lg mx-auto">
+                                    <!-- Main illustration card -->
+                                    <div class="glass-effect rounded-2xl p-6 floating-element">
+                                        <div class="flex items-center mb-6">
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white mr-4">
+                                                <i class="fas fa-graduation-cap text-xl"></i>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-bold text-xl text-gray-800">Exam Simulation</h3>
+                                                <p class="text-gray-600">Real-time testing environment</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Removed the stats cards and text -->
+
+                                        <!-- Floating elements around the main card -->
+                                        <div class="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-r from-yellow-200 to-pink-200 rounded-2xl -rotate-12"></div>
+                                        <div class="absolute -bottom-6 -right-6 w-28 h-28 bg-gradient-to-r from-green-200 to-blue-200 rounded-2xl rotate-12"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Features Section -->
+                <section class="py-16 md:py-24 bg-white/50">
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title">
+                            Why Choose Quick Exam?
+                        </h2>
+                        <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12">
+                            Our platform offers everything you need to prepare effectively for your exams
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="feature-card rounded-2xl p-8">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center mb-6">
+                                    <i class="fas fa-brain text-2xl text-purple-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-4">Adaptive Learning</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Question difficulty adjusts based on your performance to maximize learning efficiency. A random question will also be included to keep practice engaging.
+                                </p>
+                                <div class="text-purple-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i> Smart practice
+                                </div>
+                            </div>
+
+                            <div class="feature-card rounded-2xl p-8">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 flex items-center justify-center mb-6">
+                                    <i class="fas fa-chart-line text-2xl text-pink-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-4">Progress Analytics</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Track your improvement with detailed reports and performance insights over time.
+                                </p>
+                                <div class="text-purple-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i> Visual reports
+                                </div>
+                            </div>
+
+                            <div class="feature-card rounded-2xl p-8">
+                                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-green-100 to-teal-100 flex items-center justify-center mb-6">
+                                    <i class="fas fa-clock text-2xl text-green-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-4">Timed Practice</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Simulate real exam conditions with timed tests to improve your time management skills.
+                                </p>
+                                <div class="text-purple-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i> Real simulation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA Section -->
+                <section class="py-16 md:py-24 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-90"></div>
+                    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/3 translate-y-1/3"></div>
+
+                    <div class="container mx-auto px-4 relative z-10">
+                        <div class="max-w-3xl mx-auto text-center">
+                            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                                Ready to Ace Your Next Exam?
+                            </h2>
+                            <p class="text-xl text-white/90 mb-8">
+                                Join thousands of successful learners who have improved their scores with Quick Exam.
+                            </p>
+
+                            <h:panelGroup rendered="#{!userSession.isLoggedIn()}">
+                                <h:link outcome="#{homeController.register()}"
+                                        styleClass="bg-white text-purple-700 font-bold py-4 px-10 rounded-xl inline-flex items-center justify-center text-lg hover:bg-gray-100 transition-all duration-300 shadow-xl">
+                                    <i class="fas fa-user-plus mr-3"></i> Create Free Account
+                                </h:link>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{userSession.isLoggedIn()}">
+                                <h:form>
+                                    <h:commandLink action="#{homeController.passExam()}"
+                                                     styleClass="bg-white text-purple-700 font-bold py-4 px-10 rounded-xl inline-flex items-center justify-center text-lg hover:bg-gray-100 transition-all duration-300 shadow-xl pulse-animation">
+                                        <i class="fas fa-play mr-3"></i> Start Your Next Exam Now
+                                    </h:commandLink>
+                                </h:form>
+                                <p class="text-white/80 mt-4">
+                                    Continue your learning journey where you left off
+                                </p>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </section>
+
+            </ui:insert>
+        </main>
+
+        <!-- Footer -->
+        <ui:include src="views/layouts/footer.xhtml" />
+
+    </h:body>
+</f:view>
+</html>

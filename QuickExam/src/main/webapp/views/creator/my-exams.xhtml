@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+<f:view>
+    <ui:composition template="sidebar.xhtml">
+        <ui:define name="title">My Exams - Admin Panel</ui:define>
+
+        <ui:define name="content">
+            <!-- Main container with fixed height for scrolling -->
+            <div style="height: calc(100vh - 80px); overflow-y: auto; padding-right: 10px;">
+
+                <!-- Header Section -->
+                <div class="mb-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800 mb-2">My Created Exams</h1>
+                            <p class="text-gray-600">Manage, track, and organize all your examination sessions</p>
+                        </div>
+                        <h:form>
+                            <h:commandLink action="#{examController.goToCreateExam()}"
+                                           styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                <span>Create New Exam</span>
+                            </h:commandLink>
+                        </h:form>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white p-5 rounded-xl border-l-4 border-blue-400 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="text-2xl font-bold text-blue-500 mb-1">
+                                #{examController.myExams.size()}
+                            </div>
+                            <div class="text-sm text-gray-500 font-medium">Active Exams</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter Section -->
+                <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                        <div class="relative flex-grow max-w-2xl">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                            <input type="text"
+                                   id="examSearch"
+                                   onkeyup="searchExams()"
+                                   placeholder="Search exams by theme, type, or any keyword..."
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-colors"/>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button onclick="resetSearch()"
+                                    class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors inline-flex items-center">
+                                <i class="fas fa-redo mr-2"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <h:messages globalOnly="true" styleClass="mb-6"/>
+
+                <!-- Exams Table -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gradient-to-r from-blue-50 to-indigo-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Theme
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Type
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Questions
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Duration
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Candidates
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="examTableBody" class="bg-white divide-y divide-gray-100">
+                            <ui:repeat value="#{examController.myExams}" var="exam" varStatus="status">
+                                <tr class="exam-row hover:bg-blue-50 transition-colors duration-200">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div>
+                                                <div class="text-base font-semibold text-gray-900 exam-theme">#{exam.theme}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                            #{exam.typeQuestion}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-gray-900">#{exam.nbrQuestion}</div>
+                                        <div class="text-xs text-gray-500">questions</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                                            <span class="text-sm font-medium text-gray-900">
+                                                <ui:fragment rendered="#{exam.examTime >= 60}">
+                                                    #{(exam.examTime / 60).intValue()}h #{exam.examTime % 60}m
+                                                </ui:fragment>
+                                                <ui:fragment rendered="#{exam.examTime lt 60}">
+                                                    #{exam.examTime}m
+                                                </ui:fragment>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center">
+                                                <div class="w-2 h-2 rounded-full bg-red-400 mr-2"></div>
+                                                <span class="text-xs font-medium text-gray-700">Unconfirmed:</span>
+                                                <span class="ml-2 px-2 py-1 text-xs font-bold bg-red-50 text-red-600 rounded">
+                                                    #{examController.getUnConfirmedCount(exam.examId)}
+                                                </span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
+                                                <span class="text-xs font-medium text-gray-700">Confirmed:</span>
+                                                <span class="ml-2 px-2 py-1 text-xs font-bold bg-yellow-50 text-yellow-600 rounded">
+                                                    #{examController.getConfirmedCount(exam.examId)}
+                                                </span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div class="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
+                                                <span class="text-xs font-medium text-gray-700">Participated:</span>
+                                                <span class="ml-2 px-2 py-1 text-xs font-bold bg-green-50 text-green-600 rounded">
+                                                    #{examController.getPassCount(exam.examId)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <h:form>
+                                                <h:commandLink action="#{examController.goToUpdateExam(exam.examId)}"
+                                                               styleClass="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center mr-3">
+                                                    <i class="fas fa-edit mr-2"></i>
+                                                    <span>Update</span>
+                                                </h:commandLink>
+
+                                                <h:commandLink action="#{examController.goToCandidate(exam.examId, exam.theme)}"
+                                                               styleClass="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center mr-3">
+                                                    <i class="fas fa-users mr-2"></i>
+                                                    <span>Candidates</span>
+                                                </h:commandLink>
+
+                                                <h:commandLink action="#{examController.deleteExam(exam.examId)}"
+                                                               immediate="true"
+                                                               onclick="return confirm('Are you sure you want to delete this exam?\\n\\nThis will delete: \\n✓ All exam questions\\n✓ All options\\n✓ All candidate data');"
+                                                               styleClass="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center">
+                                                    <i class="fas fa-trash mr-2"></i>
+                                                    <span>Delete</span>
+                                                </h:commandLink>
+                                            </h:form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <h:panelGroup rendered="#{empty examController.myExams}">
+                        <div class="text-center py-16">
+                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-6">
+                                <i class="fas fa-file-alt text-3xl text-blue-400"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">No Exams Found</h3>
+                            <p class="text-gray-500 mb-6">Create your first exam to get started</p>
+                            <h:commandLink action="#{examController.goToCreateExam()}"
+                                           styleClass="px-6 py-3 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                <span>Create Your First Exam</span>
+                            </h:commandLink>
+                        </div>
+                    </h:panelGroup>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-between bg-white px-6 py-4 rounded-xl shadow-sm">
+                    <div class="text-sm text-gray-700">
+                        <span id="visibleCount" class="font-semibold">#{examController.myExams.size()}</span> exams found
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <h:commandLink action="#{examController.previousPage()}"
+                                       rendered="#{examController.pageNumber > 1}"
+                                       styleClass="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-medium rounded-lg transition-colors inline-flex items-center">
+                            <i class="fas fa-chevron-left mr-2"></i>
+                            <span>Previous</span>
+                        </h:commandLink>
+
+                        <span class="px-4 py-2 bg-blue-50 text-blue-600 font-semibold rounded-lg">
+                        #{examController.pageNumber} / #{examController.totalPages}
+                    </span>
+
+                        <h:commandLink action="#{examController.nextPage()}"
+                                       rendered="#{examController.pageNumber lt examController.totalPages}"
+                                       styleClass="px-4 py-2 bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium rounded-lg transition-colors inline-flex items-center">
+                            <span>Next</span>
+                            <i class="fas fa-chevron-right ml-2"></i>
+                        </h:commandLink>
+                    </div>
+                </div>
+
+            </div> <!-- End of scrollable container -->
+
+            <!-- JavaScript for search functionality -->
+            <script>
+                // Search function that works with the new table design
+                function searchExams() {
+                    const input = document.getElementById('examSearch');
+                    const filter = input.value.toLowerCase();
+                    const rows = document.querySelectorAll('#examTableBody .exam-row');
+                    let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        // Get all text content from the row
+                        const textContent = row.textContent || row.innerText;
+                        const theme = row.querySelector('.exam-theme')?.textContent || '';
+
+                        // Check if search term matches any text in the row
+                        if (textContent.toLowerCase().includes(filter) || theme.toLowerCase().includes(filter)) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+
+                    // Update visible count display
+                    const countElement = document.getElementById('visibleCount');
+                    if (countElement) {
+                        countElement.textContent = visibleCount;
+                    }
+                }
+
+                // Reset search function
+                function resetSearch() {
+                    document.getElementById('examSearch').value = '';
+                    searchExams();
+                }
+
+                // Initialize search on page load
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Add event listener for Enter key in search
+                    const searchInput = document.getElementById('examSearch');
+                    if (searchInput) {
+                        searchInput.addEventListener('keyup', function(event) {
+                            if (event.key === 'Enter') {
+                                searchExams();
+                            }
+                        });
+                    }
+
+                    // Initial search to show all rows
+                    searchExams();
+                });
+            </script>
+
+            <!-- Font Awesome Icons -->
+            <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+            <!-- Custom styles for better visual -->
+            <style>
+                /* Custom scrollbar for content area */
+                div[style*="height: calc(100vh"]::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-track {
+                    background: #f1f5f9;
+                    border-radius: 4px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 4px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+
+                /* Remove scrollbar from main page */
+                html, body {
+                    overflow: hidden;
+                    height: 100%;
+                }
+
+                /* Make sure main content doesn't overflow */
+                main {
+                    height: 100vh;
+                    overflow: hidden;
+                }
+
+                /* Smooth transitions */
+                .exam-row {
+                    transition: all 0.3s ease;
+                }
+
+                /* Better focus styles */
+                input:focus, button:focus, a:focus {
+                    outline: none;
+                    ring: 2px;
+                    ring-color: rgba(96, 165, 250, 0.5);
+                }
+
+                /* Soft color backgrounds for status */
+                .bg-red-50 { background-color: rgba(254, 226, 226, 0.8); }
+                .bg-yellow-50 { background-color: rgba(254, 243, 199, 0.8); }
+                .bg-green-50 { background-color: rgba(209, 250, 229, 0.8); }
+                .bg-blue-50 { background-color: rgba(219, 234, 254, 0.8); }
+                .bg-purple-100 { background-color: rgba(237, 233, 254, 0.8); }
+
+                /* Style for commandLinks to look like buttons */
+                a[style*="gradient"] {
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+
+                /* Ensure inline-flex works properly */
+                .inline-flex {
+                    display: inline-flex !important;
+                }
+            </style>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>

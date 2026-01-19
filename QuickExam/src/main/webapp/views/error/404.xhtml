@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+<f:view>
+    <h:head>
+        <title>404 • QuickExam</title>
+
+        <style>
+            body {
+                background:
+                        radial-gradient(circle at top left, #a5b4fc 0%, transparent 45%),
+                        radial-gradient(circle at bottom right, #67e8f9 0%, transparent 45%),
+                        linear-gradient(135deg, #f8fafc, #eef2ff, #ecfeff);
+                font-family: 'Inter', system-ui, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .error-container {
+                max-width: 460px;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.88);
+                backdrop-filter: blur(14px);
+                border-radius: 22px;
+                padding: 48px 40px;
+                text-align: center;
+                box-shadow:
+                        0 40px 80px rgba(0, 0, 0, 0.12),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            }
+
+            .logo {
+                width: 80px;
+                margin-bottom: 10px;
+            }
+
+            .brand {
+                font-size: 24px;
+                font-weight: 800;
+                background: linear-gradient(135deg, #6366f1, #06b6d4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 24px;
+            }
+
+            .error-code {
+                font-size: 96px;
+                font-weight: 900;
+                background: linear-gradient(135deg, #6366f1, #06b6d4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .error-title {
+                font-size: 26px;
+                font-weight: 700;
+                color: #1f2937;
+                margin: 16px 0 8px;
+            }
+
+            .error-text {
+                color: #6b7280;
+                margin-bottom: 30px;
+            }
+
+            .btn-primary {
+                padding: 14px 32px;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #6366f1, #06b6d4);
+                color: white;
+                font-weight: 600;
+                text-decoration: none;
+                box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 30px 60px rgb(202, 139, 237);
+            }
+
+            .btn-secondary {
+                display: inline-block;
+                margin-top: 14px;
+                color: #6b7280;
+                text-decoration: none;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <div class="error-container">
+
+            <h:graphicImage library="logo" name="icon.png" styleClass="logo"/>
+
+            <div class="brand">QuickExam</div>
+
+            <div class="error-code">404</div>
+            <div class="error-title">Page Not Found</div>
+
+            <div class="error-text">
+                The page you’re looking for doesn’t exist or was moved.
+            </div>
+
+            <h:form>
+                <h:link outcome="#{homeController.goToHome()}" styleClass="btn-primary">
+                    Back to Home
+                </h:link>
+            </h:form>
+
+            <br/>
+
+            <a href="javascript:history.back()" class="btn-secondary">← Go Back</a>
+
+        </div>
+
+    </h:body>
+</f:view>
+</html>

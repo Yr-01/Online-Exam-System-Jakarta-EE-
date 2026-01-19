@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+    <persistence-unit name="default">
+
+    </persistence-unit>
+
+    <persistence-unit name="QuickExamPU" transaction-type="JTA">
+        <description>Connexion à la base de données MySQL via WildFly</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <jta-data-source>java:/MySqlDS</jta-data-source>
+
+        <class>com.example.quickexam.entity.User</class>
+        <class>com.example.quickexam.entity.CodeSession</class>
+        <class>com.example.quickexam.entity.Exam</class>
+        <class>com.example.quickexam.entity.Question</class>
+        <class>com.example.quickexam.entity.QuestionOption</class>
+        <class>com.example.quickexam.entity.CandidateExam</class>
+        <class>com.example.quickexam.entity.CandidateAnswer</class>
+        <class>com.example.quickexam.entity.ValidateUser</class>
+        <class>com.example.quickexam.entity.CandidateExamScore</class>
+        <class>com.example.quickexam.entity.CreatorRequest</class>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <property name="wildfly.jpa.default-unit" value="true"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

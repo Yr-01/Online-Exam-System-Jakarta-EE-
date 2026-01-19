@@ -1,0 +1,448 @@
+<ui:composition template="sidebar.xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core">
+
+    <ui:define name="title">Become a Creator</ui:define>
+    <ui:define name="pageTitle">
+        <div class="flex items-center gap-3">
+            <div class="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-lg">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Become a Creator</h1>
+                <p class="text-gray-600 text-sm">Apply to share your expertise and create content</p>
+            </div>
+        </div>
+    </ui:define>
+
+    <ui:define name="content">
+        <div style="height: calc(100vh - 80px); overflow-y: auto; padding-right: 10px;">
+        <!-- Success/Error Messages -->
+        <div class="mb-6">
+            <h:messages globalOnly="true" styleClass="rounded-xl" showDetail="true" showSummary="false"
+                        infoClass="bg-emerald-100 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl"
+                        errorClass="bg-rose-100 border border-rose-200 text-rose-800 px-4 py-3 rounded-xl"
+                        warnClass="bg-amber-100 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl"/>
+        </div>
+        <!-- Application Form - Now at the top -->
+        <h:panelGroup id="formWrapper">
+            <h:form rendered="#{creatorRequestBean.displayFrom}" id="dataForm">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mb-6">
+                    <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-indigo-50">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                New Creator Application
+                            </h4>
+                            <h:commandLink action="#{creatorRequestBean.cancelCreatorRequest()}"
+                                           styleClass="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-medium rounded-lg shadow hover:shadow-lg transition duration-300 text-sm">
+                                <f:ajax execute="@this" render=":formWrapper"/>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                Cancel
+                            </h:commandLink>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <!-- Specialty Field -->
+                        <div class="mb-6">
+                            <label for="specialty" class="block text-sm font-medium text-gray-700 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                    Specialty
+                                    <span class="text-rose-500">*</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <h:inputText id="specialty" required="true" value="#{creatorRequestBean.specialty}"
+                                             styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-purple-500 outline-none transition duration-300 pr-10"
+                                             requiredMessage="Specialty is required">
+                                    <f:validateLength minimum="3" maximum="100"/>
+                                    <f:ajax event="blur" render="specialty-error"/>
+                                </h:inputText>
+                                <div class="absolute right-3 top-3.5 text-gray-400">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h:message id="specialty-error" for="specialty" styleClass="text-sm text-rose-600 mt-1"/>
+                            <p class="text-xs text-gray-500 mt-1">Your area of expertise (e.g., Web Development, Graphic Design, Data Science)</p>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="mb-6">
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                                    </svg>
+                                    Description
+                                    <span class="text-rose-500">*</span>
+                                </span>
+                            </label>
+                            <h:inputTextarea id="description" required="true" value="#{creatorRequestBean.description}"
+                                             styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 outline-none transition duration-300 resize-none"
+                                             rows="4"
+                                             requiredMessage="Description is required">
+                                <f:validateLength minimum="20" maximum="500"/>
+                                <f:ajax event="blur" render="description-error"/>
+                            </h:inputTextarea>
+                            <h:message id="description-error" for="description" styleClass="text-sm text-rose-600 mt-1"/>
+                            <p class="text-xs text-gray-500 mt-1">Describe your experience, qualifications, and what content you plan to create (20-500 characters)</p>
+                        </div>
+
+                        <!-- Portfolio Link Field -->
+                        <div class="mb-8">
+                            <label for="portfolioLink" class="block text-sm font-medium text-gray-700 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                    Portfolio Link
+                                    <span class="text-rose-500">*</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <h:inputText id="portfolioLink" required="true" value="#{creatorRequestBean.portfolioLink}"
+                                             styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 outline-none transition duration-300 pr-10"
+                                             requiredMessage="Portfolio link is required">
+                                    <f:validateLength minimum="10" maximum="500"/>
+                                    <f:ajax event="blur" render="portfolioLink-error"/>
+                                </h:inputText>
+                                <div class="absolute right-3 top-3.5 text-gray-400">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h:message id="portfolioLink-error" for="portfolioLink" styleClass="text-sm text-rose-600 mt-1"/>
+                            <p class="text-xs text-gray-500 mt-1">Link to your portfolio, GitHub, LinkedIn, or any platform showcasing your work</p>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
+                            <h:commandLink action="#{creatorRequestBean.saveCreatorRequest()}"
+                                           styleClass="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                                <f:ajax execute="@form" render=":formWrapper :requestList"/>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Submit Application
+                            </h:commandLink>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </h:panelGroup>
+
+        <!-- Main Content Card - Scrollable section for existing requests -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <!-- Card Header -->
+            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white sticky top-0 z-10">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">My Creator Applications</h3>
+                        <p class="text-sm text-gray-600 mt-1">View and manage your submitted applications</p>
+                    </div>
+                    <h:form>
+                        <h:commandLink action="#{creatorRequestBean.addCreatorRequest()}"
+                                       styleClass="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                            <f:ajax render=":requestList :formWrapper"/>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Add New Request
+                        </h:commandLink>
+                    </h:form>
+                </div>
+            </div>
+
+            <!-- Existing Requests Section - Scrollable -->
+            <h:panelGroup id="requestList">
+                <div class="overflow-auto" style="max-height: calc(100vh - 300px);">
+                    <div class="p-6">
+                        <h:panelGroup rendered="#{not empty creatorRequestBean.myRequests}">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <ui:repeat value="#{creatorRequestBean.myRequests}" var="myRequest">
+                                    <div class="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition duration-300">
+                                        <!-- Status Badge -->
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div>
+                                                <span class="text-sm font-medium text-gray-700">Submitted:</span>
+                                                <p class="text-sm text-gray-500">#{myRequest.createdAt}</p>
+                                            </div>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                #{myRequest.status == 'PENDING' ? 'bg-amber-100 text-amber-800' :
+                                                  myRequest.status == 'APPROVED' ? 'bg-emerald-100 text-emerald-800' :
+                                                  myRequest.status == 'REJECTED' ? 'bg-rose-100 text-rose-800' :
+                                                  'bg-gray-100 text-gray-800'}">
+                                                #{myRequest.status}
+                                            </span>
+                                        </div>
+
+                                        <!-- Specialty -->
+                                        <div class="mb-3">
+                                            <span class="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                                                <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                </svg>
+                                                Specialty
+                                            </span>
+                                            <p class="text-gray-900 font-medium">#{myRequest.specialty}</p>
+                                        </div>
+
+                                        <!-- Description -->
+                                        <div class="mb-3">
+                                            <span class="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                                                </svg>
+                                                Description
+                                            </span>
+                                            <p class="text-gray-600 text-sm line-clamp-2">#{myRequest.description}</p>
+                                        </div>
+
+                                        <!-- Portfolio Link -->
+                                        <div class="mb-3">
+                                            <span class="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                                </svg>
+                                                Portfolio Link
+                                            </span>
+                                            <a href="#{myRequest.portfolioLink}" target="_blank"
+                                               class="text-blue-600 hover:text-blue-800 text-sm font-medium truncate block">
+                                                #{myRequest.portfolioLink}
+                                            </a>
+                                        </div>
+
+                                        <!-- Admin Feedback -->
+                                        <h:panelGroup rendered="#{not empty myRequest.adminFeedback}">
+                                            <div class="pt-3 border-t border-gray-200">
+                                                <span class="flex items-center gap-1 text-sm font-medium text-gray-700 mb-1">
+                                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                                                    </svg>
+                                                    Admin Feedback
+                                                </span>
+                                                <p class="text-gray-600 text-sm bg-gray-50 p-2 rounded-lg">#{myRequest.adminFeedback}</p>
+                                            </div>
+                                        </h:panelGroup>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </h:panelGroup>
+
+                        <!-- Empty State -->
+                        <h:panelGroup rendered="#{empty creatorRequestBean.myRequests}">
+                            <div class="text-center py-12">
+                                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 mb-4">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-900 mb-2">No Applications Yet</h4>
+                                <p class="text-gray-600 mb-4 max-w-md mx-auto">You haven't submitted any creator applications yet. Click "Add New Request" to start your application.</p>
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </div>
+
+        <!-- Tips Card -->
+        <div class="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6">
+            <h4 class="text-lg font-semibold text-blue-900 mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Application Tips
+            </h4>
+            <ul class="space-y-2 text-sm text-blue-800">
+                <li class="flex items-start gap-2">
+                    <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Be specific about your specialty area</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Provide detailed description of your experience and planned content</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Include a working portfolio link that showcases your work</span>
+                </li>
+            </ul>
+        </div>
+
+        <style>
+            div[style*="height: calc(100vh"]::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            div[style*="height: calc(100vh"]::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 4px;
+            }
+
+            div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 4px;
+            }
+
+            div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+            /* Custom styling for better UX */
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* Focus states */
+            input:focus, textarea:focus {
+                outline: none;
+                ring: 2px;
+                ring-color: rgba(139, 92, 246, 0.5);
+            }
+
+            /* Smooth transitions */
+            .transition {
+                transition-property: all;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+
+            /* Card hover effects */
+            .hover\:shadow-lg:hover {
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+            /* Gradient backgrounds */
+            .bg-gradient-to-br {
+                background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+            }
+
+            /* Badge styling */
+            .inline-flex {
+                display: inline-flex !important;
+            }
+
+            /* Sticky header for scrollable section */
+            .sticky {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            /* Custom scrollbar for the requests section */
+            .overflow-auto {
+                scrollbar-width: thin;
+                scrollbar-color: #cbd5e1 #f1f1f1;
+            }
+
+            .overflow-auto::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+
+            .overflow-auto::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+
+            .overflow-auto::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 4px;
+            }
+
+            .overflow-auto::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+
+            /* Responsive grid adjustments */
+            @media (max-width: 768px) {
+                .grid {
+                    grid-template-columns: 1fr !important;
+                }
+
+                .overflow-auto {
+                    max-height: calc(100vh - 350px) !important;
+                }
+            }
+
+            /* Ensure forms are properly displayed */
+            form {
+                display: block !important;
+            }
+
+            /* Smooth scroll behavior */
+            html {
+                scroll-behavior: smooth;
+            }
+
+            /* Form animation */
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            #formWrapper form {
+                animation: slideDown 0.3s ease-out;
+            }
+        </style>
+
+        <script>
+            // Auto-scroll to form when it appears
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add event listener for AJAX updates
+                if (typeof jsf !== 'undefined') {
+                    jsf.ajax.addOnEvent(function(data) {
+                        if (data.status === 'success') {
+                            // Check if form is now visible
+                            setTimeout(function() {
+                                const form = document.querySelector('#formWrapper form');
+                                if (form &amp;&amp; form.style.display !== 'none') {
+                                    // Smooth scroll to form
+                                    form.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+
+                                    // Focus on first input field
+                                    const firstInput = document.getElementById('specialty');
+                                    if (firstInput) {
+                                        firstInput.focus();
+                                    }
+                                }
+                            }, 100);
+                        }
+                    });
+                }
+            });
+        </script>
+    </div>
+    </ui:define>
+</ui:composition>

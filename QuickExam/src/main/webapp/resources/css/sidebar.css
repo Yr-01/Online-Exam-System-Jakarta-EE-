@@ -1,0 +1,230 @@
+/* resources/css/admin-sidebar.css */
+
+/* Soft violet background effects on body */
+body {
+    background: radial-gradient(circle at top left, rgba(196, 181, 253, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at top right, rgba(167, 139, 250, 0.2) 0%, transparent 45%),
+    radial-gradient(circle at center top, rgba(196, 181, 253, 0.15) 0%, transparent 50%),
+    #ffffff;
+    min-height: 100vh;
+}
+
+/* Sidebar with inner violet blobs */
+#sidebar {
+    width: 16rem; /* w-64 */
+    transition: width 0.3s ease-in-out;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+#sidebar::before,
+#sidebar::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.25;
+    z-index: 0;
+    animation: float 25s infinite ease-in-out;
+}
+#sidebar::before {
+    width: 400px;
+    height: 400px;
+    background: #c4b5fd;
+    bottom: -100px;
+    left: -100px;
+}
+#sidebar::after {
+    width: 500px;
+    height: 500px;
+    background: #a78bfa;
+    bottom: 100px;
+    right: -150px;
+    animation-delay: 10s;
+}
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(60px, 80px) rotate(180deg); }
+}
+
+.sidebar-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Collapsed state - wider to fit toggle button */
+#sidebar.collapsed {
+    width: 8rem; /* w-24 = 96px → enough space for logo + toggle */
+}
+
+#sidebar.collapsed .sidebar-title,
+#sidebar.collapsed .nav-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Center logo and icons when collapsed */
+#sidebar.collapsed .header-inner {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+#sidebar.collapsed .nav-item {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    margin: 0.4rem 0;
+}
+
+
+/* Icons always same size */
+.nav-item svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+}
+
+/* Navigation items */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: #f3e8ff;
+    color: #7c3aed;
+}
+
+.nav-item.active {
+    background-color: #ede9fe;
+    color: #6d28d9;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(109, 40, 217, 0.15);
+}
+
+/* Toggle button */
+.toggle-btn {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    margin-left: 0.5rem;
+}
+
+.toggle-btn:hover {
+    background-color: #ede9fe;
+}
+
+/* Profile at bottom */
+.profile-section {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.exit-dashboard-btn {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    transition: all 0.35s ease;
+    margin-bottom: 2rem;
+}
+
+.exit-dashboard-btn:hover {
+    background: linear-gradient(135deg, #fb923c, #f97316);
+    color: #ffffff;
+    transform: translateX(4px);
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35);
+}
+
+.exit-dashboard-btn:hover .nav-text span {
+    color: #ffffff !important;
+}
+
+.exit-dashboard-btn:hover .exit-icon {
+    color: #ffffff;
+    transform: translateX(-4px);
+}
+
+/* Exit icon */
+.exit-icon {
+    font-size: 1.2rem;
+    color: #f97316;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn {
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover svg {
+    color: #f6ecec !important;
+}
+
+.logout-btn:hover .nav-text span:first-child {
+    color: #ffecec !important;
+}
+
+/* Ensure proper spacing for new layout */
+.profile-section {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+/* Divider styling */
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
+
+/* Active state for logout */
+.logout-btn.active {
+    background-color: #fef2f2; /* rose-50 */
+}
+
+
+.logout-btn.active svg {
+    color: #f8e0e0; /* rose-600 */
+}
+
+.logout-btn.active .nav-text span:first-child {
+    color: #ffeded;
+}
+.logout-btn:hover .nav-text span {
+    color: #ffeded !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 8rem;
+    }
+    #sidebar .sidebar-title,
+    #sidebar .nav-text {
+        opacity: 0;
+        visibility: hidden;
+        width: 0;
+    }
+    #sidebar .header-inner {
+        justify-content: center;
+        gap: 0;
+    }
+    #sidebar .nav-item {
+        justify-content: center;
+        padding: 0.875rem;
+    }
+}

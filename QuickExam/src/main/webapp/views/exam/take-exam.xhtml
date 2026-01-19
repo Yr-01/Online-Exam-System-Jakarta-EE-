@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+    <h:head>
+        <title>Take Exam</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- Tailwind -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Icons -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+        <style>
+            body {
+                background: linear-gradient(135deg,#f0f9ff,#f0fdf4,#faf5ff);
+                font-family: 'Inter', system-ui, sans-serif;
+            }
+
+            /* MAIN CARD */
+            .exam-container {
+                background: #ffffff;
+                border-radius: 24px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+                overflow: hidden;
+            }
+
+            /* QUESTION */
+            .question-header {
+                padding: 32px;
+                background: linear-gradient(135deg,#22c55e20,#3b82f620);
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .question-text {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #1f2937;
+                line-height: 1.6;
+                position: relative;
+                padding-left: 16px;
+            }
+
+            .question-text::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 4px;
+                border-radius: 4px;
+                background: linear-gradient(#22c55e,#3b82f6);
+            }
+
+            /* OPTIONS */
+            .options-wrapper {
+                padding: 32px;
+            }
+
+            .option-card {
+                border: 2px solid #e5e7eb;
+                border-radius: 16px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                margin-bottom: 16px;
+            }
+
+            .option-card:hover {
+                background: #f9fafb;
+                border-color: #cbd5e1;
+                transform: translateY(-2px);
+            }
+
+            .option-card.selected {
+                border-color: #22c55e;
+                background: #f0fdf4;
+            }
+
+            .check-circle {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                border: 2px solid #9ca3af;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .option-card.selected .check-circle {
+                background: #22c55e;
+                border-color: #22c55e;
+                color: white;
+            }
+
+            .option-text {
+                font-size: 1.1rem;
+                color: #374151;
+            }
+
+            .hidden-checkbox {
+                display: none;
+            }
+
+            /* TIMER */
+            .timer-box {
+                margin: 0 32px 32px;
+                padding: 20px;
+                background: #fff7ed;
+                border: 2px solid #fdba74;
+                border-radius: 16px;
+                text-align: center;
+            }
+
+            .timer-time {
+                font-size: 1.75rem;
+                font-weight: 700;
+                color: #9a3412;
+            }
+
+            /* BUTTON */
+            .next-btn {
+                background: linear-gradient(135deg,#22c55e,#16a34a);
+                color: white;
+                padding: 16px 48px;
+                border-radius: 14px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                transition: all 0.3s;
+                box-shadow: 0 10px 25px rgba(34,197,94,.35);
+            }
+
+            .next-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 35px rgba(34,197,94,.45);
+            }
+
+            /* SCORE */
+            .score-container {
+                background: #ffffff;
+                border-radius: 24px;
+                padding: 48px;
+                text-align: center;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            }
+        </style>
+    </h:head>
+
+    <h:body class="min-h-screen flex items-center justify-center p-6">
+
+        <h:panelGroup id="examFormAndScore" class="w-full max-w-3xl">
+
+            <!-- ===== QUESTIONS ===== -->
+            <h:panelGroup rendered="#{not empty examTakingBean.questionText}">
+                <div class="exam-container">
+
+                    <!-- QUESTION -->
+                    <div class="question-header">
+                        <div class="question-text">
+                            #{examTakingBean.questionText}
+                        </div>
+                    </div>
+
+                    <h:form>
+
+                        <!-- OPTIONS -->
+                        <div class="options-wrapper">
+                            <ui:repeat value="#{examTakingBean.questionOptions}" var="option">
+                                <label class="flex items-center gap-3 py-2">
+                                    <h:selectBooleanCheckbox value="#{option.correct}"
+                                                             styleClass="w-4 h-4 scale-150 accent-indigo-600"/>
+                                    <span class="text-xl font-bold tracking-wide text-gray-800">
+                                        #{option.optionText}
+                                    </span>
+                                </label>
+                                <br/>
+                            </ui:repeat>
+                        </div>
+
+                        <!-- TIMER -->
+                        <div class="timer-box">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span class="timer-time">
+                        #{examTakingBean.timeRemaining}
+                    </span>
+                        </div>
+
+                        <p:poll interval="1"
+                                listener="#{examTakingBean.calculateTimeRemaining}"
+                                update="examFormAndScore"/>
+
+                        <!-- ACTION -->
+                        <div class="text-center pb-8">
+                            <h:commandButton value="Next Question"
+                                             action="#{examTakingBean.nextQuestion}"
+                                             styleClass="next-btn"/>
+                        </div>
+
+                    </h:form>
+                </div>
+            </h:panelGroup>
+
+            <!-- ===== SCORE ===== -->
+            <h:panelGroup rendered="#{examTakingBean.displayScore}">
+                <div class="score-container">
+                    <i class="fas fa-trophy text-6xl text-yellow-400 mb-6"></i>
+
+                    <h2 class="text-3xl font-bold mb-4">Exam Completed</h2>
+
+                    <div class="text-5xl font-extrabold text-green-600 mb-6">
+                        #{examTakingBean.score} / #{examTakingBean.nbrQuestions}
+                    </div>
+
+                    <h:form class="flex gap-4 justify-center">
+                        <h:commandLink action="#{homeController.goToHome()}"
+                                       styleClass="next-btn">
+                            <i class="fas fa-home mr-2"></i> Home
+                        </h:commandLink>
+
+                        <h:commandLink action="#{homeController.dashboard()}"
+                                       styleClass="next-btn bg-gray-500">
+                            <i class="fas fa-chart-line mr-2"></i> Dashboard
+                        </h:commandLink>
+                    </h:form>
+                </div>
+            </h:panelGroup>
+
+        </h:panelGroup>
+
+    </h:body>
+</f:view>
+</html>

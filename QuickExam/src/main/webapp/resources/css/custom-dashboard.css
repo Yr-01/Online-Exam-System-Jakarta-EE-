@@ -1,0 +1,164 @@
+/* resources/css/custom-dashboard.css */
+
+/* Main background - soft violet effects at the top */
+body {
+    background: radial-gradient(circle at top left, rgba(196, 181, 253, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at top right, rgba(167, 139, 250, 0.2) 0%, transparent 45%),
+    radial-gradient(circle at center top, rgba(196, 181, 253, 0.15) 0%, transparent 50%),
+    #ffffff;
+    min-height: 100vh;
+}
+
+/* Sidebar violet blobs */
+.sidebar-bg {
+    position: relative;
+    overflow: hidden;
+}
+.sidebar-bg::before,
+.sidebar-bg::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.25;
+    z-index: 0;
+    animation: float 25s infinite ease-in-out;
+}
+.sidebar-bg::before {
+    width: 400px;
+    height: 400px;
+    background: #c4b5fd;
+    bottom: -100px;
+    left: -100px;
+}
+.sidebar-bg::after {
+    width: 500px;
+    height: 500px;
+    background: #a78bfa;
+    bottom: 100px;
+    right: -150px;
+    animation-delay: 10s;
+}
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(60px, 80px) rotate(180deg); }
+}
+
+.sidebar-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Profile at bottom */
+.profile-section {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Collapsed state */
+#sidebar.collapsed {
+    width: 80px !important;
+}
+#sidebar.collapsed .sidebar-title,
+#sidebar.collapsed .nav-text {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+}
+#sidebar.collapsed .sidebar-content {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+#sidebar.collapsed .nav-btn {
+    justify-content: center;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 80px;
+    }
+    #sidebar .sidebar-title,
+    #sidebar .nav-text {
+        opacity: 0;
+        visibility: hidden;
+        width: 0;
+    }
+    #sidebar .sidebar-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    #sidebar .nav-btn {
+        justify-content: center;
+    }
+}
+/* Base commandButton fix */
+.nav-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+
+    width: 100%;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 12px 16px;
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 500;
+    color: #374151;
+
+    text-align: left;
+    white-space: nowrap;
+
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+.nav-btn:hover {
+    background-color: #ede9fe;
+    color: #6d28d9;
+}
+
+/* ICON BASE */
+.nav-btn::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    width: 22px;
+    min-width: 22px;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* ICONS */
+.icon-exams::before     { content: "\f15c"; } /* file */
+.icon-sessions::before  { content: "\f017"; } /* clock */
+.icon-creators::before  { content: "\f0c0"; } /* users */
+.icon-profile::before   { content: "\f007"; } /* user */
+
+/* ACTIVE (optional) */
+.nav-btn.active {
+    background-color: #ddd6fe;
+    color: #5b21b6;
+    font-weight: 600;
+}
+
+/* COLLAPSED SIDEBAR */
+#sidebar.collapsed .nav-btn {
+    justify-content: center;
+    padding: 12px;
+}
+
+#sidebar.collapsed .nav-btn::before {
+    margin-right: 0;
+}

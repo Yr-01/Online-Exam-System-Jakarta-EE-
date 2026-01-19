@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view>
+    <h:head>
+        <title>Exam Countdown - QuickExam</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+        <style>
+            body {
+                font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                min-height: 100vh;
+            }
+
+            .countdown-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border-radius: 24px;
+                box-shadow:
+                        0 20px 60px rgba(59, 130, 246, 0.08),
+                        0 8px 32px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(226, 232, 240, 0.6);
+                overflow: hidden;
+                position: relative;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .countdown-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: linear-gradient(90deg,
+                #3b82f6 0%,
+                #8b5cf6 50%,
+                #ec4899 100%);
+            }
+
+            .exam-icon {
+                width: 100px;
+                height: 100px;
+                background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                border-radius: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 3rem;
+                margin: 0 auto;
+                box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+            }
+
+            .countdown-timer {
+                font-family: 'Courier New', monospace;
+                font-size: 3.5rem;
+                font-weight: 700;
+                color: #1e293b;
+                text-align: center;
+                letter-spacing: 4px;
+                background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+                border-radius: 16px;
+                padding: 25px;
+                margin: 30px 0;
+                border: 2px solid #e2e8f0;
+            }
+
+            .info-box {
+                background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+                border-radius: 16px;
+                padding: 24px;
+                border: 1px solid #bae6fd;
+                margin-top: 20px;
+            }
+
+            .detail-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 15px;
+                background: #f8fafc;
+                border-radius: 12px;
+                margin-bottom: 10px;
+                border: 1px solid #e2e8f0;
+            }
+
+            .detail-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1rem;
+                background: #dbeafe;
+                color: #1d4ed8;
+            }
+
+            .refresh-animation {
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0% { opacity: 0.6; }
+                50% { opacity: 1; }
+                100% { opacity: 0.6; }
+            }
+
+            @media (max-width: 768px) {
+                .countdown-timer {
+                    font-size: 2.5rem;
+                    padding: 20px;
+                }
+
+                .exam-icon {
+                    width: 80px;
+                    height: 80px;
+                    font-size: 2.5rem;
+                }
+            }
+        </style>
+    </h:head>
+    <h:body class="min-h-screen py-8 px-4">
+
+        <!-- Header -->
+        <ui:include src="/views/layouts/header.xhtml" />
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 sm:px-6">
+            <div class="countdown-card p-8">
+
+                <!-- Icon and Title -->
+                <div class="text-center mb-10">
+                    <div class="exam-icon mb-6">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                        Exam Countdown
+                    </h1>
+                    <p class="text-gray-600 text-lg">
+                        Your exam session will begin shortly
+                    </p>
+                </div>
+
+                <h:form id="timerForm">
+                    <h:panelGroup id="displayTimeRemaining">
+                        <h:panelGroup rendered="#{accessExamBean.candidateExam != null}">
+
+                            <!-- Time Remaining Display -->
+                            <div class="text-center mb-8">
+                                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                                    <i class="fas fa-hourglass-half mr-2"></i>
+                                    Time Remaining Until Start
+                                </h2>
+                                <div class="countdown-timer">
+                                    #{accessExamBean.timeRemaining}
+                                </div>
+                                <p class="text-gray-500 text-sm mt-2">
+                                    <i class="fas fa-sync-alt mr-1 refresh-animation"></i>
+                                    Auto-updating every second
+                                </p>
+                            </div>
+
+                            <!-- Exam Details -->
+                            <div class="mb-8">
+                                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    Exam Details
+                                </h2>
+
+                                <div class="space-y-3">
+                                    <div class="detail-item">
+                                        <div class="detail-icon">
+                                            <i class="fas fa-calendar-day"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Exam Date</div>
+                                            <div class="font-semibold text-gray-800">
+                                                #{accessExamBean.candidateExam.date}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <div class="detail-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Start Time</div>
+                                            <div class="font-semibold text-gray-800">
+                                                <h:outputText value="#{accessExamBean.candidateExam.heureDebut}">
+                                                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <div class="detail-icon">
+                                            <i class="fas fa-stopwatch"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">End Time</div>
+                                            <div class="font-semibold text-gray-800">
+                                                <h:outputText value="#{accessExamBean.candidateExam.heureFin}">
+                                                    <f:convertDateTime type="localTime" pattern="HH:mm" />
+                                                </h:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Auto-refresh poll -->
+                            <p:poll interval="1"
+                                    update="displayTimeRemaining"
+                                    listener="#{accessExamBean.calculateTimeRemaining}"
+                                    style="display: none;" />
+
+                            <!-- Important Information -->
+                            <div class="info-box">
+                                <h4 class="text-lg font-semibold text-blue-900 mb-3 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Important Notes
+                                </h4>
+                                <ul class="text-blue-800 space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mr-2 mt-1"></i>
+                                        <span>This page will automatically refresh and redirect you when the exam starts</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mr-2 mt-1"></i>
+                                        <span>Ensure you have a stable internet connection</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mr-2 mt-1"></i>
+                                        <span>Do not close or refresh this page</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Back to Home Button -->
+                            <div class="mt-8 pt-8 border-t border-gray-200 text-center">
+                                <h:link outcome="/index.xhtml"
+                                        styleClass="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                    Return to Homepage
+                                </h:link>
+                            </div>
+
+                        </h:panelGroup>
+
+                        <!-- Fallback if no exam data -->
+                        <h:panelGroup rendered="#{accessExamBean.candidateExam == null}">
+                            <div class="text-center py-12">
+                                <div class="exam-icon mb-6" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-3">
+                                    No Exam Session Found
+                                </h2>
+                                <p class="text-gray-600 mb-6">
+                                    Unable to retrieve exam information. Please check your access code.
+                                </p>
+                                <h:link outcome="/views/access-exam.xhtml"
+                                        styleClass="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-key mr-3"></i>
+                                    Enter Exam Code Again
+                                </h:link>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </h:form>
+
+            </div>
+        </main>
+
+        <!-- JavaScript -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add smooth animations
+                const countdownElement = document.querySelector('.countdown-timer');
+                if (countdownElement) {
+                    setInterval(() => {
+                        countdownElement.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            countdownElement.style.transform = 'scale(1)';
+                        }, 100);
+                    }, 1000);
+                }
+
+                // Add page title update with countdown
+                const originalTitle = document.title;
+                setInterval(() => {
+                    const timerText = document.querySelector('.countdown-timer')?.textContent;
+                    if (timerText &amp;&amp; timerText.trim()) {
+                        document.title = `${timerText.trim()} - QuickExam`;
+                    }
+                }, 1000);
+
+                // Reset title when leaving page
+                window.addEventListener('beforeunload', function() {
+                    document.title = originalTitle;
+                });
+            });
+        </script>
+
+    </h:body>
+</f:view>
+</html>

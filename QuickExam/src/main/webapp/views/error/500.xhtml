@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+<f:view>
+    <h:head>
+        <title>500 • QuickExam</title>
+
+        <style>
+            body {
+                background:
+                        radial-gradient(circle at top left, #c7d2fe 0%, transparent 45%),
+                        radial-gradient(circle at bottom right, #f8a3ac 0%, transparent 45%),
+                        linear-gradient(135deg, #f8fafc, #eef2ff, #fdf2f8);
+                font-family: 'Inter', system-ui, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .error-container {
+                max-width: 460px;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(14px);
+                border-radius: 22px;
+                padding: 48px 40px;
+                text-align: center;
+                box-shadow:
+                        0 40px 80px rgba(0, 0, 0, 0.12),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                position: relative;
+            }
+
+            .logo {
+                width: 80px;
+                margin-bottom: 10px;
+            }
+
+            .brand {
+                font-size: 24px;
+                font-weight: 800;
+                background: linear-gradient(135deg, #6366f1, #ec4899);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                margin-bottom: 24px;
+                letter-spacing: 0.5px;
+            }
+
+            .error-code {
+                font-size: 96px;
+                font-weight: 900;
+                line-height: 1;
+                background: linear-gradient(135deg, #6366f1, #ec4899);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .error-title {
+                font-size: 26px;
+                font-weight: 700;
+                color: #1f2937;
+                margin: 16px 0 8px;
+            }
+
+            .error-text {
+                color: #6b7280;
+                font-size: 16px;
+                line-height: 1.6;
+                margin-bottom: 30px;
+            }
+
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                padding: 14px 32px;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #6366f1, #ec4899);
+                color: white;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 30px 60px rgba(236, 72, 153, 0.45);
+            }
+
+            .btn-secondary {
+                display: inline-block;
+                margin-top: 14px;
+                color: #6b7280;
+                font-size: 14px;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .btn-secondary:hover {
+                color: #1f2937;
+            }
+
+            /* Decorative floating shapes */
+            .shape {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(30px);
+                opacity: 0.35;
+                z-index: -1;
+            }
+
+            .shape.one {
+                width: 140px;
+                height: 140px;
+                background: #a5b4fc;
+                top: -40px;
+                left: -40px;
+            }
+
+            .shape.two {
+                width: 180px;
+                height: 180px;
+                background: #f88a95;
+                bottom: -60px;
+                right: -60px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <div class="error-container">
+
+            <!-- Decorative Shapes -->
+            <div class="shape one"></div>
+            <div class="shape two"></div>
+
+            <!-- Logo -->
+            <h:graphicImage library="logo"
+                            name="icon.png"
+                            styleClass="logo"
+                            alt="QuickExam Logo"/>
+
+            <!-- Brand -->
+            <div class="brand">QuickExam</div>
+
+            <!-- Error -->
+            <div class="error-code">500</div>
+            <div class="error-title">Something Went Wrong</div>
+
+            <div class="error-text">
+                Our servers encountered an unexpected error.<br/>
+                Please try again later or return to the homepage.
+            </div>
+
+            <!-- Actions -->
+            <h:form>
+                <h:link outcome="#{homeController.goToHome()}"
+                        styleClass="btn-primary">
+                    Back to Home
+                </h:link>
+            </h:form>
+
+            <br/>
+
+            <a href="javascript:history.back()" class="btn-secondary">
+                ← Go Back
+            </a>
+
+        </div>
+
+    </h:body>
+</f:view>
+</html>

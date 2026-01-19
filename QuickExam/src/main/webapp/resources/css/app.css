@@ -1,0 +1,159 @@
+/* =========================
+   GLOBAL
+========================= */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f3f7fd;
+    color: #333;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(180deg, #4e73df, #224abe);
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar-header {
+    padding: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    background: rgba(0,0,0,0.1);
+}
+
+.sidebar-menu {
+    margin-top: 20px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: #eaeaea;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.sidebar-menu a i {
+    width: 30px;
+    font-size: 18px;
+}
+
+.sidebar-menu a:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+.main-content {
+    margin-left: 240px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.collapsed {
+    margin-left: 70px;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.toggle-btn {
+    border: none;
+    background: #4e73df;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    background: #2e59d9;
+}
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card-box {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-box i {
+    font-size: 30px;
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+}
+
+.bg-blue { background: #4e73df; }
+.bg-green { background: #1cc88a; }
+.bg-red { background: #e74a3b; }
+.bg-yellow { background: #f6c23e; }
+
+.card-title {
+    font-size: 14px;
+    color: #777;
+}
+
+.card-value {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* =========================
+   TABLE FIX
+========================= */
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background: #eef3ff;
+    font-weight: 600;
+}
+
+.table td, .table th {
+    vertical-align: middle !important;
+}

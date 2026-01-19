@@ -1,0 +1,326 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <header class="sticky top-0 z-50 glass-effect shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <h:link outcome="#{homeController.goToHome()}" styleClass="flex items-center space-x-3 no-underline">
+                        <div class="relative">
+                            <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-graduation-cap text-white text-xl"></i>
+                            </div>
+                            <!-- Fallback if logo image exists -->
+                            <h:graphicImage library="logo" name="icon.png"
+                                            styleClass="absolute inset-0 w-full h-full rounded-xl"
+                                            rendered="#{resource['logo:icon.png'] ne null}" />
+                        </div>
+                        <div>
+                            <span class="text-2xl font-bold gradient-text">QuickExam</span>
+                            <p class="text-xs text-gray-500 -mt-1">Learning Platform</p>
+                        </div>
+                    </h:link>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-1">
+                    <h:link outcome="/index.xhtml" styleClass="nav-link px-4 py-2 font-medium text-gray-700">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </h:link>
+
+                    <h:panelGroup rendered="#{userSession.isLoggedIn()}">
+                        <h:form>
+                            <h:commandLink action="#{homeController.exams()}"
+                                           styleClass="nav-link px-4 py-2 font-medium text-gray-700">
+                                <i class="fas fa-book mr-2"></i>Exams
+                            </h:commandLink>
+                        </h:form>
+
+                        <h:form>
+                            <h:commandLink action="#{homeController.passExam()}"
+                                           styleClass="nav-link px-4 py-2 font-medium text-gray-700">
+                                <i class="fas fa-pen-alt mr-2"></i>Take Exam
+                            </h:commandLink>
+                        </h:form>
+
+                        <h:form>
+                            <h:commandLink action="#{homeController.dashboard()}"
+                                           styleClass="nav-link px-4 py-2 font-medium text-gray-700">
+                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGroup>
+                </nav>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center space-x-4">
+                    <h:panelGroup rendered="#{!userSession.isLoggedIn()}">
+                        <div class="hidden md:flex items-center space-x-3">
+                            <h:link outcome="#{homeController.login()}"
+                                    styleClass="px-5 py-2 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-colors">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                            </h:link>
+                            <h:link outcome="#{homeController.register()}"
+                                    styleClass="btn-primary px-6 py-2.5 text-white font-medium rounded-lg">
+                                <i class="fas fa-user-plus mr-2"></i>Register
+                            </h:link>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{userSession.isLoggedIn()}">
+                        <div class="flex items-center space-x-4">
+
+                            <!-- User Profile Dropdown -->
+                            <div class="relative group">
+                                <!-- Toggle Button -->
+                                <h:commandLink type="button"
+                                        class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-100 transition-colors focus:outline-none"
+                                        onclick="document.getElementById('userDropdown').classList.toggle('hidden');">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold shadow">
+                                        #{userSession.currentUser.nom.substring(0, 1).toUpperCase()}
+                                    </div>
+                                    <div class="hidden md:block text-left">
+                                        <div class="font-medium text-gray-800">#{userSession.currentUser.nom}</div>
+                                        <div class="text-xs text-gray-500">#{userSession.roleName}</div>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-gray-400"></i>
+                                </h:commandLink>
+
+                                <!-- Dropdown Menu -->
+                                <div id="userDropdown"
+                                     class="absolute right-0 mt-2 w-56 glass-effect rounded-xl shadow-xl border border-white/20 hidden z-50">
+                                    <div class="p-4 border-b border-gray-100 bg-white/95">
+                                        <div class="font-medium text-gray-800">#{userSession.currentUser.nom}</div>
+                                        <div class="text-sm text-gray-500">#{userSession.currentUser.email}</div>
+                                    </div>
+                                    <div class="p-2 bg-white/95 rounded-b-xl">
+                                        <h:form>
+                                            <h:commandLink action="#{homeController.dashboard()}"
+                                                           styleClass="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors w-full"
+                                                           onclick="document.getElementById('userDropdown').classList.add('hidden');">
+                                                <i class="fas fa-user-circle mr-3"></i>
+                                                My Profile
+                                            </h:commandLink>
+                                        </h:form>
+
+                                        <h:form>
+                                            <h:commandLink action="#{homeController.exams()}"
+                                                           styleClass="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors w-full"
+                                                           onclick="document.getElementById('userDropdown').classList.add('hidden');">
+                                                <i class="fas fa-book mr-3"></i>
+                                                Browse Exams
+                                            </h:commandLink>
+                                        </h:form>
+
+                                        <div class="border-t border-gray-100 mt-2 pt-2">
+                                            <h:form>
+                                                <h:commandLink action="#{authController.logout()}"
+                                                               styleClass="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full"
+                                                               onclick="document.getElementById('userDropdown').classList.add('hidden');">
+                                                    <i class="fas fa-sign-out-alt mr-3"></i>
+                                                    Log Out
+                                                </h:commandLink>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <!-- Mobile menu button -->
+                    <button class="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="lg:hidden glass-effect border-t border-gray-100 hidden" id="mobileMenu">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex flex-col space-y-2">
+                    <h:link outcome="/index.xhtml" styleClass="px-4 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-home mr-3"></i>Home
+                    </h:link>
+
+                    <h:panelGroup rendered="#{userSession.isLoggedIn()}">
+                        <h:form>
+                            <h:commandLink action="#{homeController.exams()}"
+                                           styleClass="block px-4 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-book mr-3"></i>Exams
+                            </h:commandLink>
+                        </h:form>
+
+                        <h:form>
+                            <h:commandLink action="#{homeController.passExam()}"
+                                           styleClass="block px-4 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-pen-alt mr-3"></i>Take Exam
+                            </h:commandLink>
+                        </h:form>
+
+                        <h:form>
+                            <h:commandLink action="#{homeController.dashboard()}"
+                                           styleClass="block px-4 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+                            </h:commandLink>
+                        </h:form>
+                    </h:panelGroup>
+
+                    <div class="border-t border-gray-100 pt-2 mt-2">
+                        <h:panelGroup rendered="#{!userSession.isLoggedIn()}">
+                            <h:link outcome="#{homeController.login()}"
+                                    styleClass="block px-4 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-sign-in-alt mr-3"></i>Sign In
+                            </h:link>
+                            <h:link outcome="#{homeController.register()}"
+                                    styleClass="btn-primary block px-4 py-3 text-white font-medium rounded-lg text-center mt-2">
+                                <i class="fas fa-user-plus mr-3"></i>Create Account
+                            </h:link>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <style>
+        :root {
+            --soft-rose: #ffeef5;
+            --soft-purple: #f5f1ff;
+            --soft-yellow: #fff9e6;
+            --soft-blue: #f0f8ff;
+            --soft-green: #f0fff4;
+            --soft-milk: #fdf6f0;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-milk) 0%, var(--soft-purple) 50%, var(--soft-blue) 100%);
+            min-height: 100vh;
+        }
+
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-gradient);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            background: white;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background: var(--primary-gradient);
+            bottom: -10px;
+            left: 20%;
+            border-radius: 2px;
+        }
+    </style>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('button.lg\\:hidden');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (mobileMenuButton &amp;&amp; mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+
+</ui:composition>

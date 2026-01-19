@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+
+<f:view>
+
+    <h:head>
+        <title>Register</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                position: relative;
+                min-height: 100vh;
+            }
+
+            body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.03);
+                z-index: -1;
+            }
+
+            .page-center {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .register-card {
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                padding: 48px 40px;
+                width: 100%;
+                max-width: 800px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .register-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+            }
+
+            .logo-container {
+                text-align: center;
+                margin-bottom: 24px;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            }
+
+            .logo i {
+                font-size: 36px;
+                color: white;
+            }
+
+            .register-header {
+                text-align: center;
+                margin-bottom: 32px;
+            }
+
+            .register-header h1 {
+                font-weight: 700;
+                margin-bottom: 8px;
+                color: #1a202c;
+                font-size: 28px;
+                letter-spacing: -0.5px;
+            }
+
+            .register-header p {
+                color: #718096;
+                font-size: 15px;
+                margin: 0;
+            }
+
+            .two-column-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+                margin-bottom: 32px;
+            }
+
+            @media (max-width: 768px) {
+                .two-column-grid {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+            }
+
+            .column {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .form-group {
+                position: relative;
+            }
+
+            .form-label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #2d3748;
+                font-size: 14px;
+                letter-spacing: 0.3px;
+            }
+
+            .form-control {
+                width: 100%;
+                border: 2px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 14px 16px 14px 48px;
+                font-size: 15px;
+                transition: all 0.3s ease;
+                background: white;
+                color: #2d3748;
+            }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+            .form-control::placeholder {
+                color: #a0aec0;
+            }
+
+            .input-icon {
+                position: relative;
+            }
+
+            .input-icon i {
+                position: absolute;
+                left: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #a0aec0;
+                font-size: 16px;
+                z-index: 2;
+                transition: color 0.3s ease;
+            }
+
+            .form-control:focus + i {
+                color: #667eea;
+            }
+
+            .btn-register {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: none;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                font-weight: 600;
+                border-radius: 12px;
+                width: 100%;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                letter-spacing: 0.5px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+            }
+
+            .btn-register:active {
+                transform: translateY(0);
+            }
+
+            .btn-register::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 5px;
+                height: 5px;
+                background: rgba(255, 255, 255, 0.5);
+                opacity: 0;
+                border-radius: 100%;
+                transform: scale(1, 1) translate(-50%);
+                transform-origin: 50% 50%;
+            }
+
+            .btn-register:focus:not(:active)::after {
+                animation: ripple 1s ease-out;
+            }
+
+            @keyframes ripple {
+                0% {
+                    transform: scale(0, 0);
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: scale(40, 40);
+                    opacity: 0;
+                }
+            }
+
+            .error-message {
+                color: #e53e3e;
+                font-size: 13px;
+                margin-top: 6px;
+                display: flex;
+                align-items: center;
+                animation: fadeIn 0.3s ease;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            .error-message i {
+                margin-right: 6px;
+                font-size: 12px;
+            }
+
+            .messages-container {
+                margin-top: 24px;
+                padding: 16px;
+                border-radius: 12px;
+                background: #fef2f2;
+                border: 2px solid #fecaca;
+                animation: slideIn 0.3s ease;
+            }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .login-link {
+                text-align: center;
+                margin-top: 32px;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 24px;
+            }
+
+            .login-link p {
+                color: #718096;
+                font-size: 14px;
+                margin: 0;
+            }
+
+            .login-link a {
+                color: #667eea;
+                text-decoration: none;
+                font-weight: 600;
+                display: inline-flex;
+                align-items: center;
+                transition: color 0.3s ease;
+                margin-left: 4px;
+            }
+
+            .login-link a:hover {
+                color: #764ba2;
+                text-decoration: underline;
+            }
+
+            .login-link a i {
+                margin-right: 6px;
+                font-size: 13px;
+            }
+
+            .password-strength {
+                margin-top: 8px;
+                height: 4px;
+                background: #e2e8f0;
+                border-radius: 2px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .password-strength-bar {
+                height: 100%;
+                width: 0%;
+                background: #48bb78;
+                transition: width 0.3s ease, background 0.3s ease;
+            }
+
+            .password-strength-text {
+                font-size: 12px;
+                color: #718096;
+                margin-top: 4px;
+                text-align: right;
+            }
+
+            @media (max-width: 768px) {
+                .register-card {
+                    padding: 32px 24px;
+                    margin: 0 10px;
+                }
+
+                .logo {
+                    width: 70px;
+                    height: 70px;
+                }
+
+                .logo i {
+                    font-size: 32px;
+                }
+
+                .register-header h1 {
+                    font-size: 24px;
+                }
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+
+        <div class="page-center">
+
+            <div class="register-card">
+
+                <div class="logo-container">
+                    <div class="logo">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+
+                <div class="register-header">
+                    <h1>Create Account</h1>
+                    <p>Fill in your information</p>
+                </div>
+
+                <h:form id="registerForm">
+
+                    <!-- 2 COLUMN GRID -->
+                    <div class="two-column-grid">
+
+                        <!-- LEFT COLUMN -->
+                        <div class="column">
+
+                            <div class="form-group">
+                                <h:outputLabel for="nom" value="Last Name" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                    <h:inputText id="nom"
+                                                 value="#{authController.nom}"
+                                                 required="true"
+                                                 requiredMessage="Last name is required"
+                                                 styleClass="form-control"
+                                                 placeholder="Enter your last name"/>
+                                </div>
+                                <h:message for="nom" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="prenom" value="First Name" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                    <h:inputText id="prenom"
+                                                 value="#{authController.prenom}"
+                                                 required="true"
+                                                 requiredMessage="First name is required"
+                                                 styleClass="form-control"
+                                                 placeholder="Enter your first name"/>
+                                </div>
+                                <h:message for="prenom" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="ecole" value="School" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-school"></i>
+                                    <h:inputText id="ecole"
+                                                 value="#{authController.ecole}"
+                                                 required="true"
+                                                 requiredMessage="School is required"
+                                                 styleClass="form-control"
+                                                 placeholder="Enter your school"/>
+                                </div>
+                                <h:message for="ecole" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="filiere" value="Field of Study" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-book"></i>
+                                    <h:inputText id="filiere"
+                                                 value="#{authController.filiere}"
+                                                 required="true"
+                                                 requiredMessage="Field of study is required"
+                                                 styleClass="form-control"
+                                                 placeholder="Enter your field of study"/>
+                                </div>
+                                <h:message for="filiere" styleClass="error-message"/>
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT COLUMN -->
+                        <div class="column">
+
+                            <div class="form-group">
+                                <h:outputLabel for="gsm" value="Phone Number" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                    <h:inputText id="gsm"
+                                                 value="#{authController.gsm}"
+                                                 required="true"
+                                                 requiredMessage="Phone number is required"
+                                                 styleClass="form-control"
+                                                 placeholder="+212 6xx xx xx xx"/>
+                                </div>
+                                <h:message for="gsm" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="email" value="Email Address" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                    <h:inputText id="email"
+                                                 value="#{authController.email}"
+                                                 required="true"
+                                                 requiredMessage="Email is required"
+                                                 validator="#{authController.validateEmail}"
+                                                 styleClass="form-control"
+                                                 placeholder="email@example.com"/>
+                                </div>
+                                <h:message for="email" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="password" value="Password" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                    <h:inputSecret id="password"
+                                                   value="#{authController.password}"
+                                                   required="true"
+                                                   requiredMessage="Password is required"
+                                                   styleClass="form-control"
+                                                   placeholder="Create a password"/>
+                                </div>
+                                <h:message for="password" styleClass="error-message"/>
+                            </div>
+
+                            <div class="form-group">
+                                <h:outputLabel for="confirmPassword" value="Confirm Password" styleClass="form-label"/>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                    <h:inputSecret id="confirmPassword"
+                                                   value="#{authController.confirmPassword}"
+                                                   required="true"
+                                                   requiredMessage="Please confirm your password"
+                                                   styleClass="form-control"
+                                                   placeholder="Confirm your password"/>
+                                </div>
+                                <h:message for="confirmPassword" styleClass="error-message"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <h:commandButton value="Create Account"
+                                     action="#{authController.register}"
+                                     styleClass="btn-register"/>
+
+                    <!-- Global error messages -->
+                    <h:messages globalOnly="true" styleClass="messages-container" infoClass="message-info" errorClass="message-error"/>
+
+                </h:form>
+
+                <div class="login-link">
+                    <p>
+                        Already have an account?
+                        <a href="login">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </h:body>
+
+</f:view>
+</html>

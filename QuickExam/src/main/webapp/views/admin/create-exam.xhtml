@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+<f:view>
+    <ui:composition template="sidebar.xhtml">
+        <ui:define name="title">Create Exam</ui:define>
+
+        <ui:define name="content">
+            <!-- Main container with fixed height for scrolling -->
+            <div style="height: calc(100vh - 80px); overflow-y: auto; padding-right: 10px;">
+
+                <div class="max-w-5xl mx-auto">
+                    <!-- Header with Back Button -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h1 class="text-3xl font-bold text-gray-800 mb-2">Create New Exam</h1>
+                                <p class="text-gray-600">Build your exam step by step</p>
+                            </div>
+
+                            <h:form>
+                                <h:commandLink action="#{createExamBean.goToExamList()}"
+                                               immediate="true"
+                                               styleClass="bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center">
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                    <span>Go Back</span>
+                                </h:commandLink>
+                            </h:form>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <h:messages globalOnly="false" styleClass="mb-6"/>
+
+                    <h:form id="mainForm">
+                        <!-- Exam Details -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-3 text-lg"></i>
+                                Exam Information
+                            </h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="theme" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-heading text-blue-400 mr-1"></i> Exam Theme *
+                                    </label>
+                                    <h:inputText id="theme" value="#{createExamBean.examDetails.theme}"
+                                                 styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors"
+                                                 required="true" requiredMessage="Exam theme is required"/>
+                                </div>
+
+                                <div>
+                                    <label for="typeQuestion" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-tag text-blue-400 mr-1"></i> Question Type
+                                    </label>
+                                    <h:inputText id="typeQuestion" value="#{createExamBean.examDetails.typeQuestion}"
+                                                 styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors"/>
+                                </div>
+
+                                <div>
+                                    <label for="questionTime" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-clock text-blue-400 mr-1"></i> Time per Question (minutes)
+                                    </label>
+                                    <h:inputText id="questionTime" value="#{createExamBean.examDetails.questionTime}"
+                                                 styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors">
+                                        <f:convertNumber integerOnly="true"/>
+                                    </h:inputText>
+                                </div>
+
+                                <div>
+                                    <label for="nbrQuestion" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-question-circle text-blue-400 mr-1"></i> Number of Questions to Display
+                                    </label>
+                                    <h:inputText id="nbrQuestion" value="#{createExamBean.examDetails.nbrQuestion}"
+                                                 styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors">
+                                        <f:convertNumber integerOnly="true"/>
+                                    </h:inputText>
+                                    <p class="text-sm text-gray-500 mt-2">Maximum questions shown to candidates</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Question Button -->
+                        <div class="text-center mb-8">
+                            <h:commandLink action="#{createExamBean.createNewQuestion()}"
+                                           styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center">
+                                <i class="fas fa-plus-circle mr-3"></i>
+                                <span>Add Question</span>
+                            </h:commandLink>
+                        </div>
+
+                        <!-- Question Editor -->
+                        <h:panelGroup rendered="#{createExamBean.addingNewQuestion or createExamBean.editingQuestion}">
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                                    <i class="fas #{createExamBean.editingQuestion ? 'fa-edit' : 'fa-plus'} text-blue-500 mr-3"></i>
+                                    #{createExamBean.editingQuestion ? 'Edit Question' : 'Add New Question'}
+                                </h3>
+
+                                <!-- Question Text -->
+                                <div class="mb-6">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-file-alt text-blue-400 mr-1"></i> Question Text *
+                                    </label>
+                                    <h:inputTextarea id="questionText" value="#{createExamBean.currentQuestion.questionText}"
+                                                     rows="4"
+                                                     styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors"
+                                                     required="true" requiredMessage="Question text is required"/>
+                                </div>
+
+                                <!-- Current Options -->
+                                <div class="mb-6">
+                                    <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                                        <i class="fas fa-list-ol text-blue-400 mr-2"></i> Current Options
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <ui:repeat value="#{createExamBean.currentQuestion.options}" var="option" varStatus="status">
+                                            <div class="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors">
+                                                <div class="flex items-center">
+                                                <span class="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-700 font-bold rounded-full mr-3">
+                                                    #{status.index + 1}
+                                                </span>
+                                                    <div>
+                                                        <strong class="text-gray-800">#{option.optionText}</strong>
+                                                        <h:panelGroup rendered="#{option.correct}">
+                                                        <span class="ml-3 px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full inline-flex items-center">
+                                                            <i class="fas fa-check mr-1"></i> Correct Answer
+                                                        </span>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                </div>
+                                                <h:commandLink action="#{createExamBean.removeOptionFromCurrentQuestion(option)}"
+                                                               styleClass="text-red-500 hover:text-red-700 font-medium inline-flex items-center">
+                                                    <i class="fas fa-trash-alt mr-2"></i>
+                                                    <span>Remove</span>
+                                                </h:commandLink>
+                                            </div>
+                                        </ui:repeat>
+
+                                        <h:panelGroup rendered="#{empty createExamBean.currentQuestion.options}">
+                                            <div class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                                                <i class="fas fa-list text-gray-400 text-3xl mb-3"></i>
+                                                <p class="text-gray-500 font-medium">No options added yet</p>
+                                            </div>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+
+                                <!-- Add New Option -->
+                                <div class="bg-white rounded-lg p-6 border border-gray-200 mb-6">
+                                    <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+                                        <i class="fas fa-plus-circle text-green-500 mr-2"></i> Add New Option
+                                    </h4>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Option Text
+                                            </label>
+                                            <h:inputText value="#{createExamBean.currentOptionText}"
+                                                         styleClass="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 outline-none transition-colors"/>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Is Correct?
+                                            </label>
+                                            <div class="flex items-center h-full">
+                                                <div class="flex items-center bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                                    <h:selectBooleanCheckbox value="#{createExamBean.currentOptionCorrect}"
+                                                                             styleClass="w-5 h-5 text-green-500 focus:ring-green-400"/>
+                                                    <label class="ml-3 text-gray-700 font-medium">Mark as correct</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-6 text-center">
+                                        <h:commandLink action="#{createExamBean.addOptionToCurrentQuestion()}"
+                                                       styleClass="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center">
+                                            <i class="fas fa-plus mr-3"></i>
+                                            <span>Add Option</span>
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+
+                                <!-- Question Actions -->
+                                <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-blue-100">
+                                    <h:commandLink action="#{createExamBean.saveOrUpdateQuestion()}"
+                                                   styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center">
+                                        <i class="fas #{createExamBean.editingQuestion ? 'fa-save' : 'fa-check'} mr-3"></i>
+                                        <span>#{createExamBean.editingQuestion ? 'Update Question' : 'Save Question'}</span>
+                                    </h:commandLink>
+
+                                    <h:commandLink action="#{createExamBean.cancelQuestionEdit()}"
+                                                   styleClass="bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 px-8 rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center">
+                                        <i class="fas fa-times mr-3"></i>
+                                        <span>Cancel</span>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <!-- Questions List -->
+                        <h:panelGroup rendered="#{not empty createExamBean.questions}">
+                            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                                    <i class="fas fa-list text-blue-500 mr-3"></i>
+                                    Added Questions
+                                    <span class="ml-3 px-3 py-1 bg-blue-100 text-blue-700 text-sm font-bold rounded-full">
+                                    #{createExamBean.questions.size()}
+                                </span>
+                                </h3>
+
+                                <div class="space-y-6">
+                                    <ui:repeat value="#{createExamBean.questions}" var="question" varStatus="status">
+                                        <div class="border border-gray-200 rounded-xl p-6 hover:border-blue-300 transition-colors">
+                                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                                                <h4 class="text-lg font-semibold text-blue-700 mb-2 sm:mb-0">
+                                                <span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-700 font-bold rounded-full mr-3">
+                                                    #{status.index + 1}
+                                                </span>
+                                                    Question #{status.index + 1}
+                                                </h4>
+                                                <div class="flex gap-3">
+                                                    <h:commandLink action="#{createExamBean.editQuestion(question)}"
+                                                                   styleClass="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                                                        <i class="fas fa-edit mr-2"></i>
+                                                        <span>Edit</span>
+                                                    </h:commandLink>
+
+                                                    <h:commandLink action="#{createExamBean.removeQuestion(question)}"
+                                                                   onclick="return confirm('Are you sure you want to delete this question?\\n\\nThis will delete all its options as well.');"
+                                                                   styleClass="text-red-600 hover:text-red-800 font-medium inline-flex items-center">
+                                                        <i class="fas fa-trash-alt mr-2"></i>
+                                                        <span>Remove</span>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+
+                                            <p class="text-gray-800 mb-6 p-4 bg-gray-50 rounded-lg">#{question.questionText}</p>
+
+                                            <h5 class="font-medium text-gray-700 mb-4 flex items-center">
+                                                <i class="fas fa-list-check text-green-500 mr-2"></i> Options
+                                            </h5>
+
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <ui:repeat value="#{question.options}" var="opt" varStatus="optStatus">
+                                                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors">
+                                                        <div class="flex items-start">
+                                                        <span class="w-6 h-6 flex items-center justify-center bg-blue-100 text-blue-700 font-bold text-sm rounded-full mr-3 mt-1">
+                                                            #{optStatus.index + 1}
+                                                        </span>
+                                                            <div>
+                                                                <div class="text-gray-800 font-medium">#{opt.optionText}</div>
+                                                                <h:panelGroup rendered="#{opt.correct}">
+                                                                <span class="mt-2 inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                                                                    <i class="fas fa-check mr-1"></i> Correct Answer
+                                                                </span>
+                                                                </h:panelGroup>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ui:repeat>
+                                            </div>
+                                        </div>
+                                    </ui:repeat>
+                                </div>
+                            </div>
+
+                            <!-- Final Actions -->
+                            <div class="bg-white rounded-xl shadow-sm p-6">
+                                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                                    <h:commandLink action="#{createExamBean.saveExam()}"
+                                                   styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center">
+                                        <i class="fas fa-save mr-3 text-xl"></i>
+                                        <span class="text-lg">Save Exam</span>
+                                    </h:commandLink>
+
+                                    <h:commandLink action="#{createExamBean.goToExamList()}"
+                                                   immediate="true"
+                                                   styleClass="bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-medium py-4 px-8 rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center">
+                                        <i class="fas fa-times mr-3"></i>
+                                        <span>Cancel</span>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <!-- Empty State -->
+                        <h:panelGroup rendered="#{empty createExamBean.questions and not createExamBean.addingNewQuestion and not createExamBean.editingQuestion}">
+                            <div class="text-center py-16 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-dashed border-gray-300">
+                                <i class="fas fa-file-alt text-5xl text-gray-400 mb-6"></i>
+                                <h3 class="text-2xl font-semibold text-gray-700 mb-3">No questions yet</h3>
+                                <p class="text-gray-600 mb-8 max-w-md mx-auto">Click "Add First Question" to start building your exam</p>
+                                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                                    <h:commandLink action="#{createExamBean.createNewQuestion()}"
+                                                   styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center">
+                                        <i class="fas fa-plus-circle mr-3"></i>
+                                        <span>Add Your First Question</span>
+                                    </h:commandLink>
+
+                                    <h:commandLink action="#{createExamBean.goToExamList()}"
+                                                   immediate="true"
+                                                   styleClass="bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white font-medium py-3 px-8 rounded-lg shadow-sm hover:shadow transition-colors inline-flex items-center justify-center">
+                                        <i class="fas fa-arrow-left mr-3"></i>
+                                        <span>Go Back</span>
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </h:form>
+                </div>
+
+            </div> <!-- End of scrollable container -->
+
+            <!-- Custom styles -->
+            <style>
+                /* Custom scrollbar for content area */
+                div[style*="height: calc(100vh"]::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-track {
+                    background: #f1f5f9;
+                    border-radius: 4px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 4px;
+                }
+
+                div[style*="height: calc(100vh"]::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+
+                /* Remove scrollbar from main page */
+                html, body {
+                    overflow: hidden;
+                    height: 100%;
+                }
+
+                /* Make sure main content doesn't overflow */
+                main {
+                    height: 100vh;
+                    overflow: hidden;
+                }
+
+                /* Better focus styles */
+                input:focus, textarea:focus, select:focus, a:focus {
+                    outline: none;
+                    ring: 2px;
+                    ring-color: rgba(96, 165, 250, 0.5);
+                }
+
+                /* Style for commandLinks to look like buttons */
+                a[style*="gradient"] {
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                }
+
+                /* Ensure inline-flex works properly */
+                .inline-flex {
+                    display: inline-flex !important;
+                }
+
+                /* Smooth transitions */
+                .transition-colors {
+                    transition: all 0.2s ease;
+                }
+
+                /* Card hover effects */
+                .hover\:border-blue-300:hover {
+                    border-color: #93c5fd;
+                }
+            </style>
+        </ui:define>
+    </ui:composition>
+</f:view>
+</html>
