@@ -9,22 +9,22 @@
 </h:head>
 <h:body class="bg-white text-gray-800">
     <div class="flex min-h-screen">
-        <!-- SIDEBAR -->
+        
         <aside id="sidebar" class="flex-shrink-0">
             <div class="p-6 flex flex-col h-full sidebar-content">
-                <!-- HEADER: Logo + Title + Toggle -->
+                
                 <div class="flex items-center mb-10">
                     <div class="flex items-center gap-4 header-inner flex-1">
-                        <!-- Logo -->
+                        
                         <div class="w-14 h-14 rounded-lg flex items-center justify-center font-bold text-xl flex-shrink-0">
                             <h:graphicImage library="logo" name="icon.png"/>
                         </div>
-                        <!-- Title -->
+                        
                         <h2 class="sidebar-title text-xl font-bold text-violet-700 whitespace-nowrap">
                             User Panel
                         </h2>
                     </div>
-                    <!-- Toggle Button -->
+                    
                     <button type="button" id="toggleSidebar" class="toggle-btn">
                         <svg id="expandIcon" class="w-6 h-6 text-violet-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -35,7 +35,7 @@
                     </button>
                 </div>
 
-                <!-- MAIN NAVIGATION -->
+                
                 <nav class="flex-1 space-y-2">
                     <h:form>
 
@@ -92,11 +92,11 @@
                     </h:form>
                 </nav>
 
-                <!-- PROFILE AND LOGOUT AT BOTTOM -->
+                
                 <div class="profile-section space-y-2">
-                    <!-- Divider -->
+                    
                     <div class="border-t border-gray-200 my-2"></div>
-                    <!-- Logout Button -->
+                    
                     <h:form>
                         <h:commandLink action="#{authController.logout()}"
                                        styleClass="nav-item logout-btn bg-rose-100 hover:bg-red-500 hover:text-white-700"
@@ -115,7 +115,7 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        
         <main class="flex-1 p-10">
             <ui:insert name="content">
                 <div class="text-center py-20">
@@ -125,7 +125,7 @@
         </main>
     </div>
 
-    <!-- Toggle Script -->
+    
     <script>
         document.getElementById('toggleSidebar').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
@@ -142,4 +142,5 @@
         });
     </script>
 </h:body>
+
 </html>
