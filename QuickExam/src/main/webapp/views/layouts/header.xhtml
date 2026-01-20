@@ -6,14 +6,14 @@
     <header class="sticky top-0 z-50 glass-effect shadow-sm">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
+                
                 <div class="flex items-center">
                     <h:link outcome="#{homeController.goToHome()}" styleClass="flex items-center space-x-3 no-underline">
                         <div class="relative">
                             <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg">
                                 <i class="fas fa-graduation-cap text-white text-xl"></i>
                             </div>
-                            <!-- Fallback if logo image exists -->
+                            
                             <h:graphicImage library="logo" name="icon.png"
                                             styleClass="absolute inset-0 w-full h-full rounded-xl"
                                             rendered="#{resource['logo:icon.png'] ne null}" />
@@ -25,7 +25,7 @@
                     </h:link>
                 </div>
 
-                <!-- Desktop Navigation -->
+                
                 <nav class="hidden lg:flex items-center space-x-1">
                     <h:link outcome="/index.xhtml" styleClass="nav-link px-4 py-2 font-medium text-gray-700">
                         <i class="fas fa-home mr-2"></i>Home
@@ -55,7 +55,7 @@
                     </h:panelGroup>
                 </nav>
 
-                <!-- Right Side Actions -->
+                
                 <div class="flex items-center space-x-4">
                     <h:panelGroup rendered="#{!userSession.isLoggedIn()}">
                         <div class="hidden md:flex items-center space-x-3">
@@ -73,9 +73,9 @@
                     <h:panelGroup rendered="#{userSession.isLoggedIn()}">
                         <div class="flex items-center space-x-4">
 
-                            <!-- User Profile Dropdown -->
+                            
                             <div class="relative group">
-                                <!-- Toggle Button -->
+                                
                                 <h:commandLink type="button"
                                         class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-100 transition-colors focus:outline-none"
                                         onclick="document.getElementById('userDropdown').classList.toggle('hidden');">
@@ -89,7 +89,7 @@
                                     <i class="fas fa-chevron-down text-gray-400"></i>
                                 </h:commandLink>
 
-                                <!-- Dropdown Menu -->
+                                
                                 <div id="userDropdown"
                                      class="absolute right-0 mt-2 w-56 glass-effect rounded-xl shadow-xl border border-white/20 hidden z-50">
                                     <div class="p-4 border-b border-gray-100 bg-white/95">
@@ -131,7 +131,7 @@
                         </div>
                     </h:panelGroup>
 
-                    <!-- Mobile menu button -->
+                    
                     <button class="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <!-- Mobile Menu -->
+        
         <div class="lg:hidden glass-effect border-t border-gray-100 hidden" id="mobileMenu">
             <div class="container mx-auto px-4 py-4">
                 <div class="flex flex-col space-y-2">
@@ -322,5 +322,6 @@
             }
         });
     </script>
+
 
 </ui:composition>
