@@ -8,10 +8,10 @@
         <ui:define name="title">My Exams - Admin Panel</ui:define>
 
         <ui:define name="content">
-            <!-- Main container with fixed height for scrolling -->
+            
             <div style="height: calc(100vh - 80px); overflow-y: auto; padding-right: 10px;">
 
-                <!-- Header Section -->
+                
                 <div class="mb-8">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <div>
@@ -27,7 +27,7 @@
                         </h:form>
                     </div>
 
-                    <!-- Stats Cards -->
+                    
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         <div class="bg-white p-5 rounded-xl border-l-4 border-blue-400 shadow-sm hover:shadow-md transition-shadow">
                             <div class="text-2xl font-bold text-blue-500 mb-1">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <!-- Search and Filter Section -->
+                
                 <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
                     <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                         <div class="relative flex-grow max-w-2xl">
@@ -64,10 +64,10 @@
                     </div>
                 </div>
 
-                <!-- Messages -->
+                
                 <h:messages globalOnly="true" styleClass="mb-6"/>
 
-                <!-- Exams Table -->
+                
                 <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -181,7 +181,7 @@
                         </table>
                     </div>
 
-                    <!-- Empty State -->
+                    
                     <h:panelGroup rendered="#{empty examController.myExams}">
                         <div class="text-center py-16">
                             <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-6">
@@ -198,7 +198,7 @@
                     </h:panelGroup>
                 </div>
 
-                <!-- Pagination -->
+                
                 <div class="flex items-center justify-between bg-white px-6 py-4 rounded-xl shadow-sm">
                     <div class="text-sm text-gray-700">
                         <span id="visibleCount" class="font-semibold">#{examController.myExams.size()}</span> exams found
@@ -225,9 +225,9 @@
                     </div>
                 </div>
 
-            </div> <!-- End of scrollable container -->
+            </div> 
 
-            <!-- JavaScript for search functionality -->
+            
             <script>
                 // Search function that works with the new table design
                 function searchExams() {
@@ -280,10 +280,10 @@
                 });
             </script>
 
-            <!-- Font Awesome Icons -->
+            
             <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-            <!-- Custom styles for better visual -->
+            
             <style>
                 /* Custom scrollbar for content area */
                 div[style*="height: calc(100vh"]::-webkit-scrollbar {
@@ -352,4 +352,5 @@
         </ui:define>
     </ui:composition>
 </f:view>
+
 </html>
