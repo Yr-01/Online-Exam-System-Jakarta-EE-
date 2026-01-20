@@ -10,11 +10,11 @@
         <title>Quick Exam - Test Your Knowledge</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- Tailwind CSS -->
+        
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-        <!-- Font Awesome for icons -->
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <!-- Google Fonts -->
+        
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
 
         <style>
@@ -125,17 +125,17 @@
 
     <h:body class="min-h-screen">
 
-        <!-- Header -->
+        
         <ui:include src="views/layouts/header.xhtml" />
 
-        <!-- Main Content -->
+        
         <main>
             <ui:insert name="content">
 
-                <!-- Hero Section -->
+                
                 <section class="relative overflow-hidden py-16 md:py-24">
 
-                    <!-- Background decorative elements -->
+                    
                     <div class="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
                     <div class="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-r from-blue-300 to-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
 
@@ -191,7 +191,7 @@
 
                             <div class="lg:w-1/2 relative">
                                 <div class="relative max-w-lg mx-auto">
-                                    <!-- Main illustration card -->
+                                    
                                     <div class="glass-effect rounded-2xl p-6 floating-element">
                                         <div class="flex items-center mb-6">
                                             <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white mr-4">
@@ -203,9 +203,9 @@
                                             </div>
                                         </div>
 
-                                        <!-- Removed the stats cards and text -->
+                                        
 
-                                        <!-- Floating elements around the main card -->
+                                        
                                         <div class="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-r from-yellow-200 to-pink-200 rounded-2xl -rotate-12"></div>
                                         <div class="absolute -bottom-6 -right-6 w-28 h-28 bg-gradient-to-r from-green-200 to-blue-200 rounded-2xl rotate-12"></div>
                                     </div>
@@ -216,7 +216,7 @@
                     </div>
                 </section>
 
-                <!-- Features Section -->
+                
                 <section class="py-16 md:py-24 bg-white/50">
                     <div class="container mx-auto px-4">
                         <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title">
@@ -269,7 +269,7 @@
                     </div>
                 </section>
 
-                <!-- CTA Section -->
+                
                 <section class="py-16 md:py-24 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-90"></div>
                     <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
@@ -309,9 +309,10 @@
             </ui:insert>
         </main>
 
-        <!-- Footer -->
+        
         <ui:include src="views/layouts/footer.xhtml" />
 
     </h:body>
 </f:view>
+
 </html>
