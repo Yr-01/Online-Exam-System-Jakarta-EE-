@@ -19,7 +19,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <!-- Search and Filter Section -->
+        
         <div class="bg-gradient-to-r from-white to-blue-100 border border-blue-100 rounded-2xl p-6 mb-8 shadow-sm">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex-1">
@@ -60,9 +60,9 @@
             </div>
         </div>
 
-        <!-- Table Container with Fixed Scroll -->
+        
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-            <!-- Table Header -->
+            
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-semibold text-gray-800">Recent Exam Sessions</h3>
@@ -74,7 +74,7 @@
                 </div>
             </div>
 
-            <!-- Scrollable Table Area -->
+            
             <div class="overflow-auto" style="max-height: 600px;">
                 <table class="w-full min-w-max" id="historyTable">
                     <thead class="sticky top-0 z-10">
@@ -153,7 +153,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                     <ui:repeat value="#{examController.myExamSessions}" var="row" varStatus="status">
-                        <!-- Calculate score percentage -->
+                        
                         <ui:param name="totalQuestions" value="#{row[1]}"/>
                         <ui:param name="scoreNumber" value="#{row[7]}"/>
                         <ui:param name="scorePercentage" value="#{totalQuestions gt 0 ? (scoreNumber / totalQuestions * 100) : 0}"/>
@@ -214,7 +214,7 @@
                             </td>
                             <td class="px-6 py-5">
                                 <div class="flex items-center gap-4">
-                                    <!-- Circular Progress for Score Percentage -->
+                                    
                                     <div class="relative">
                                         <div class="score-circle" data-percentage="#{scorePercentage}"
                                              id="score-percentage-#{status.index}">
@@ -249,7 +249,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Score Status -->
+                                    
                                     <div class="min-w-[120px]">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mb-2
                                                     #{scorePercentage >= 80 ? 'bg-emerald-100 text-emerald-800' :
@@ -290,7 +290,7 @@
                 </table>
             </div>
 
-            <!-- Table Footer -->
+            
             <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 text-sm text-gray-600">
                     <div>
@@ -315,7 +315,7 @@
             </div>
         </div>
 
-        <!-- Empty State -->
+        
         <h:panelGroup rendered="#{empty examController.myExamSessions}">
             <div class="text-center py-20">
                 <div class="max-w-md mx-auto">
@@ -543,4 +543,5 @@
             }
         </style>
     </ui:define>
+
 </ui:composition>
