@@ -9,11 +9,11 @@
         <ui:define name="title">Create Exam</ui:define>
 
         <ui:define name="content">
-            <!-- Main container with fixed height for scrolling -->
+            
             <div style="height: calc(100vh - 80px); overflow-y: auto; padding-right: 10px;">
 
                 <div class="max-w-5xl mx-auto">
-                    <!-- Header with Back Button -->
+                    
                     <div class="mb-8">
                         <div class="flex items-center justify-between mb-6">
                             <div>
@@ -32,11 +32,11 @@
                         </div>
                     </div>
 
-                    <!-- Messages -->
+                    
                     <h:messages globalOnly="false" styleClass="mb-6"/>
 
                     <h:form id="mainForm">
-                        <!-- Exam Details -->
+                        
                         <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
                             <h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
                                 <i class="fas fa-info-circle text-blue-500 mr-3 text-lg"></i>
@@ -84,7 +84,7 @@
                             </div>
                         </div>
 
-                        <!-- Add Question Button -->
+                        
                         <div class="text-center mb-8">
                             <h:commandLink action="#{createExamBean.createNewQuestion()}"
                                            styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center">
@@ -93,7 +93,7 @@
                             </h:commandLink>
                         </div>
 
-                        <!-- Question Editor -->
+                        
                         <h:panelGroup rendered="#{createExamBean.addingNewQuestion or createExamBean.editingQuestion}">
                             <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100">
                                 <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
@@ -101,7 +101,7 @@
                                     #{createExamBean.editingQuestion ? 'Edit Question' : 'Add New Question'}
                                 </h3>
 
-                                <!-- Question Text -->
+                                
                                 <div class="mb-6">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <i class="fas fa-file-alt text-blue-400 mr-1"></i> Question Text *
@@ -112,7 +112,7 @@
                                                      required="true" requiredMessage="Question text is required"/>
                                 </div>
 
-                                <!-- Current Options -->
+                                
                                 <div class="mb-6">
                                     <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
                                         <i class="fas fa-list-ol text-blue-400 mr-2"></i> Current Options
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Add New Option -->
+                                
                                 <div class="bg-white rounded-lg p-6 border border-gray-200 mb-6">
                                     <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
                                         <i class="fas fa-plus-circle text-green-500 mr-2"></i> Add New Option
@@ -188,7 +188,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Question Actions -->
+                                
                                 <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-blue-100">
                                     <h:commandLink action="#{createExamBean.saveOrUpdateQuestion()}"
                                                    styleClass="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center">
@@ -205,7 +205,7 @@
                             </div>
                         </h:panelGroup>
 
-                        <!-- Questions List -->
+                        
                         <h:panelGroup rendered="#{not empty createExamBean.questions}">
                             <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
                                 <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
@@ -272,7 +272,7 @@
                                 </div>
                             </div>
 
-                            <!-- Final Actions -->
+                            
                             <div class="bg-white rounded-xl shadow-sm p-6">
                                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                                     <h:commandLink action="#{createExamBean.saveExam()}"
@@ -291,7 +291,7 @@
                             </div>
                         </h:panelGroup>
 
-                        <!-- Empty State -->
+                        
                         <h:panelGroup rendered="#{empty createExamBean.questions and not createExamBean.addingNewQuestion and not createExamBean.editingQuestion}">
                             <div class="text-center py-16 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-dashed border-gray-300">
                                 <i class="fas fa-file-alt text-5xl text-gray-400 mb-6"></i>
@@ -316,9 +316,9 @@
                     </h:form>
                 </div>
 
-            </div> <!-- End of scrollable container -->
+            </div> 
 
-            <!-- Custom styles -->
+            
             <style>
                 /* Custom scrollbar for content area */
                 div[style*="height: calc(100vh"]::-webkit-scrollbar {
@@ -385,4 +385,5 @@
         </ui:define>
     </ui:composition>
 </f:view>
+
 </html>
