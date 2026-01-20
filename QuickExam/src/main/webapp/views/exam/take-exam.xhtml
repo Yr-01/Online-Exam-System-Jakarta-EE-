@@ -11,11 +11,9 @@
     <h:head>
         <title>Take Exam</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <!-- Tailwind -->
+   
         <script src="https://cdn.tailwindcss.com"></script>
-
-        <!-- Icons -->
+        
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
@@ -162,11 +160,11 @@
 
         <h:panelGroup id="examFormAndScore" class="w-full max-w-3xl">
 
-            <!-- ===== QUESTIONS ===== -->
+            
             <h:panelGroup rendered="#{not empty examTakingBean.questionText}">
                 <div class="exam-container">
 
-                    <!-- QUESTION -->
+                    
                     <div class="question-header">
                         <div class="question-text">
                             #{examTakingBean.questionText}
@@ -175,7 +173,7 @@
 
                     <h:form>
 
-                        <!-- OPTIONS -->
+                        
                         <div class="options-wrapper">
                             <ui:repeat value="#{examTakingBean.questionOptions}" var="option">
                                 <label class="flex items-center gap-3 py-2">
@@ -189,7 +187,7 @@
                             </ui:repeat>
                         </div>
 
-                        <!-- TIMER -->
+                        
                         <div class="timer-box">
                             <i class="fas fa-clock mr-2"></i>
                             <span class="timer-time">
@@ -201,7 +199,7 @@
                                 listener="#{examTakingBean.calculateTimeRemaining}"
                                 update="examFormAndScore"/>
 
-                        <!-- ACTION -->
+                        
                         <div class="text-center pb-8">
                             <h:commandButton value="Next Question"
                                              action="#{examTakingBean.nextQuestion}"
@@ -212,7 +210,7 @@
                 </div>
             </h:panelGroup>
 
-            <!-- ===== SCORE ===== -->
+            
             <h:panelGroup rendered="#{examTakingBean.displayScore}">
                 <div class="score-container">
                     <i class="fas fa-trophy text-6xl text-yellow-400 mb-6"></i>
@@ -242,3 +240,4 @@
     </h:body>
 </f:view>
 </html>
+
