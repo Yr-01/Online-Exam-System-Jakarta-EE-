@@ -16,13 +16,13 @@
 
 <h:body class="bg-white text-gray-800">
     <div class="flex min-h-screen">
-        <!-- SIDEBAR -->
+        
         <aside id="sidebar" class="flex-shrink-0">
             <div class="p-6 flex flex-col h-full sidebar-content">
-                <!-- HEADER: Logo + Title + Toggle -->
+                
                 <div class="flex items-center mb-10">
                     <div class="flex items-center gap-4 header-inner flex-1">
-                        <!-- Logo -->
+                        
                         <div class="w-14 h-14 rounded-lg flex items-center justify-center font-bold text-xl flex-shrink-0">
                             <h:graphicImage library="logo" name="icon.png"/>
                         </div>
@@ -40,7 +40,7 @@
                     </button>
                 </div>
 
-                <!-- MAIN NAVIGATION -->
+                
                 <nav class="flex-1 space-y-2">
                     <h:form>
 
@@ -91,7 +91,7 @@
                     </h:form>
                 </nav>
 
-                <!-- LOGOUT AT BOTTOM -->
+                
                 <div class="profile-section space-y-2">
                     <h:form>
                         <h:commandLink action="#{homeController.profile()}"
@@ -125,7 +125,7 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
+        
         <main class="flex-1 p-10">
             <ui:insert name="content">
                 <div class="text-center py-20">
@@ -136,7 +136,7 @@
         </main>
     </div>
 
-    <!-- Sidebar Toggle Script -->
+    
     <script>
         document.getElementById('toggleSidebar').addEventListener('click', () => {
             const sidebar = document.getElementById('sidebar');
@@ -154,4 +154,5 @@
     </script>
 
 </h:body>
+
 </html>
